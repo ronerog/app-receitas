@@ -13,7 +13,7 @@ export const requestMealByName = async (name) => {
 };
 
 export const requestMealByLetter = async (letter) => {
-  const endPoint = `www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
+  const endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
   const response = await fetch(endPoint);
   const result = await response.json();
   return result;

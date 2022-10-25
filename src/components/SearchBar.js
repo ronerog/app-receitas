@@ -2,11 +2,15 @@ import React, { useContext } from 'react';
 import AppContext from '../context/Context';
 
 function SearchBar() {
-  const { handleRadio } = useContext(AppContext);
+  const {
+    handleRadio,
+    handleClickSearch,
+    handleInputSearch,
+    radio } = useContext(AppContext);
   return (
     <div>
       <form>
-        <input type="search" data-testid="search-input" />
+        <input type="search" data-testid="search-input" onChange={ handleInputSearch } />
         <br />
         <label htmlFor="ingredients">
           Ingredient
@@ -39,7 +43,14 @@ function SearchBar() {
           />
         </label>
         <br />
-        <button type="button" data-testid="exec-search-btn">Search</button>
+        <button
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ (e) => handleClickSearch(e, radio) }
+        >
+          Search
+
+        </button>
       </form>
     </div>
   );
