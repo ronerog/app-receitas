@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
+// import renderWithRouter from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Footer from '../components/footer';
+import Footer from '../components/Footer';
 
 describe('Verify the footer component', () => {
   it('Verify the drinkIcon', () => {
@@ -9,8 +10,6 @@ describe('Verify the footer component', () => {
     const button = screen.getByTestId('drinks-bottom-btn');
     expect(button).toBeInTheDocument();
     userEvent.click(button);
-
-    // REDIRECT?
   });
 
   it('Verify the mealIcon', () => {
@@ -18,7 +17,5 @@ describe('Verify the footer component', () => {
     const button = screen.getByTestId('meals-bottom-btn');
     expect(button).toBeInTheDocument();
     userEvent.click(button);
-
-    // REDIRECT?
   });
 });

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import AppProvider from './context/AppProvider';
+import Login from './pages/Login';
 import meals from './pages/Meals';
 import drinks from './pages/Drinks';
 import mealsId from './pages/MealsID';
