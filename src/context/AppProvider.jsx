@@ -5,6 +5,9 @@ import {
   requestMealByIngredient,
   requestMealByName,
   requestMealByLetter,
+  requestCocktailByIngredient,
+  requestCocktailByName,
+  requestCocktailByLetter,
 } from '../services/requestApi';
 
 function AppProvider({ children }) {
@@ -29,24 +32,35 @@ function AppProvider({ children }) {
 
   const handleClickSearch = useCallback(async (e) => {
     e.preventDefault();
+    const location = window.location.pathname;
     if (radio === 'ingredient') {
-      const recipies = await requestMealByIngredient(inputSearch);
-      setDataFiltered(recipies.meals);
-      console.log(radio);
-      console.log(recipies.meals);
+      if (location === '/meals') {
+        const recipies = await requestMealByIngredient(inputSearch);
+        setDataFiltered(recipies.meals);
+      } else {
+        const recipies = await requestCocktailByIngredient(inputSearch);
+        setDataFiltered(recipies.drinks);
+        console.log(recipies.drinks);
+      }
     } else if (radio === 'name') {
-      const recipies = await requestMealByName(inputSearch);
-      setDataFiltered(recipies.meals);
-      console.log(recipies.meals);
-      console.log(radio);
+      if (location === '/meals') {
+        const recipies = await requestMealByName(inputSearch);
+        setDataFiltered(recipies.meals);
+      } else {
+        const recipies = await requestCocktailByName(inputSearch);
+        setDataFiltered(recipies.drinks);
+      }
     } else {
       if (inputSearch.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      const recipies = await requestMealByLetter(inputSearch);
-      setDataFiltered(recipies);
-      console.log(recipies);
-      console.log(radio);
+      if (location === '/meals') {
+        const recipies = await requestMealByLetter(inputSearch);
+        setDataFiltered(recipies);
+      } else {
+        const recipies = await requestCocktailByLetter(inputSearch);
+        setDataFiltered(recipies.drinks);
+      }
     }
   }, [radio, inputSearch]);
 
@@ -78,7 +92,7 @@ function AppProvider({ children }) {
 }
 
 AppProvider.propTypes = {
-  children: PropTypes.shape.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default AppProvider;
