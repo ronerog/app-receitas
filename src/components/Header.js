@@ -6,7 +6,7 @@ import searchIcon from '../images/searchIcon.svg';
 
 export default function Header({ title, IconSearch = true,
   IconProfile = true }) {
-  const [inputSearc, setSearch] = useState(false);
+  const [inputSearch, setSearch] = useState(false);
   return (
     <header>
       {((IconProfile) && (
@@ -27,8 +27,8 @@ export default function Header({ title, IconSearch = true,
         </button>
       ))}
       {
-        (inputSearc)
-        && (<input type="text" placeholder="Search" data-testid="search-input" />)
+        (inputSearch)
+        && (<SearchBar />)
       }
       {((title) && (
         <h1 data-testid="page-title">{title}</h1>
