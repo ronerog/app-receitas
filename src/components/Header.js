@@ -1,30 +1,44 @@
-import React, { useContext } from 'react';
-import SearchBar from './SearchBar';
-import iconSearch from '../images/searchIcon.svg';
-import AppContext from '../context/Context';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
-function Header() {
-  const { radioview, handleRadioview } = useContext(AppContext);
+export default function Header({ title, IconSearch = true,
+  IconProfile = true }) {
+  const [inputSearch, setSearch] = useState(false);
   return (
-    <div>
-      <div
-        onClick={ handleRadioview }
-        onKeyPress={ handleRadioview }
-        role="button"
-        tabIndex={ 0 }
-      >
-        <img
-          src={ iconSearch }
-          alt="Profile Icon"
-          data-testid="search-top-btn"
-
-        />
-      </div>
-      {radioview && <SearchBar />}
-
-      Header
-    </div>
+    <header>
+      {((IconProfile) && (
+        <Link to="/profile">
+          <img
+            src={ profileIcon }
+            alt={ profileIcon }
+            data-testid="profile-top-btn"
+          />
+        </Link>
+      ))}
+      {((IconSearch) && (
+        <button
+          type="button"
+          onClick={ () => setSearch((prevState) => !prevState) }
+        >
+          <img src={ searchIcon } alt={ searchIcon } data-testid="search-top-btn" />
+        </button>
+      ))}
+      {
+        (inputSearch)
+        && (<SearchBar />)
+      }
+      {((title) && (
+        <h1 data-testid="page-title">{title}</h1>
+      ))}
+    </header>
   );
 }
 
-export default Header;
+Header.propTypes = {
+  IconProfile: PropTypes.bool,
+  IconSearch: PropTypes.bool,
+  title: PropTypes.string,
+}.isRequired;

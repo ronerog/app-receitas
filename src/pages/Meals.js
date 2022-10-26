@@ -8,6 +8,7 @@ function Meals() {
       <Header />
       Comidas
       <Footer />
+      <Header title="Meals" />
 
     </div>
   );
