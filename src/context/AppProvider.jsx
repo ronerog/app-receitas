@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   requestCocktailByIngredient, requestCocktailByLetter, requestCocktailByName,
   requestMealByIngredient, requestMealByLetter,
-  requestMealByName
+  requestMealByName,
 } from '../services/requestApi';
 import AppContext from './Context';
 
