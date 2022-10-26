@@ -1,14 +1,11 @@
-import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from './Context';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
-  requestMealByIngredient,
+  requestCocktailByIngredient, requestCocktailByLetter, requestCocktailByName,
+  requestMealByIngredient, requestMealByLetter,
   requestMealByName,
-  requestMealByLetter,
-  requestCocktailByIngredient,
-  requestCocktailByName,
-  requestCocktailByLetter,
 } from '../services/requestApi';
+import AppContext from './Context';
 
 function AppProvider({ children }) {
   const [dataFiltered, setDataFiltered] = useState([]);
@@ -64,6 +61,14 @@ function AppProvider({ children }) {
     }
   }, [radio, inputSearch]);
 
+  const handleEmail = ({ target: { value } }) => {
+    setEmail(value);
+  };
+
+  const handlePassword = ({ target: { value } }) => {
+    setPassword(value);
+  };
+
   const contexto = useMemo(() => ({
     email,
     password,
@@ -77,6 +82,8 @@ function AppProvider({ children }) {
     handleRadioview,
     dataFiltered,
     handleClickSearch,
+    handleEmail,
+    handlePassword,
   }), [email,
     password,
     inputSearch,
@@ -92,7 +99,7 @@ function AppProvider({ children }) {
 }
 
 AppProvider.propTypes = {
-  children: PropTypes.func.isRequired,
-};
+  children: PropTypes.func,
+}.isRequired;
 
 export default AppProvider;
