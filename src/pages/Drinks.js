@@ -5,10 +5,10 @@ import Header from '../components/Header';
 function Drinks() {
   return (
     <div>
-      <Header />
+      <Header title="Drinks" />
+
       Bebidas
       <Footer />
-      <Header title="Drinks" />
 
     </div>
   );

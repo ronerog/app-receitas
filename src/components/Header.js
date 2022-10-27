@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header({ title, IconSearch = true,
   IconProfile = true }) {
@@ -13,7 +14,7 @@ export default function Header({ title, IconSearch = true,
         <Link to="/profile">
           <img
             src={ profileIcon }
-            alt={ profileIcon }
+            alt="profile icon"
             data-testid="profile-top-btn"
           />
         </Link>
@@ -23,7 +24,8 @@ export default function Header({ title, IconSearch = true,
           type="button"
           onClick={ () => setSearch((prevState) => !prevState) }
         >
-          <img src={ searchIcon } alt={ searchIcon } data-testid="search-top-btn" />
+          <img src={ searchIcon } alt="search-icon"
+          data-testid="search-top-btn" />
         </button>
       ))}
       {
