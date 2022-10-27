@@ -24,8 +24,11 @@ export default function Header({ title, IconSearch = true,
           type="button"
           onClick={ () => setSearch((prevState) => !prevState) }
         >
-          <img src={ searchIcon } alt="search-icon"
-          data-testid="search-top-btn" />
+          <img
+            src={ searchIcon }
+            alt="search-icon"
+            data-testid="search-top-btn"
+          />
         </button>
       ))}
       {
