@@ -3,17 +3,18 @@ import { screen, render } from '@testing-library/react';
 // import renderWithRouter from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Footer from '../components/Footer';
+import { renderWithContext } from './helper/renderWith';
 
 describe('Verify the footer component', () => {
   it('Verify the drinkIcon', () => {
-    render(<Footer />);
+    renderWithContext(<Footer />);
     const button = screen.getByTestId('drinks-bottom-btn');
     expect(button).toBeInTheDocument();
     userEvent.click(button);
   });
 
   it('Verify the mealIcon', () => {
-    render(<Footer />);
+    renderWithContext(<Footer />);
     const button = screen.getByTestId('meals-bottom-btn');
     expect(button).toBeInTheDocument();
     userEvent.click(button);

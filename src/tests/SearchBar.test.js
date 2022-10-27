@@ -18,7 +18,7 @@ describe('Testa Cobertura da Barra de Busca', () => {
   test('Testa elementos da Header', async () => {
     renderWithContext(<Header />);
 
-    const getIcon = screen.getByRole('img', { name: /profile icon/i });
+    const getIcon = screen.getByRole('img', { name: /search-icon/i });
     expect(getIcon).toBeInTheDocument();
     act(() => { userEvent.click(getIcon); });
     const searchBtn = await screen.findByTestId('exec-search-btn', {}, { timeout: 3000 });
