@@ -1,6 +1,5 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import renderWithRouter from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Footer from '../components/Footer';
 import { renderWithContext } from './helper/renderWith';
