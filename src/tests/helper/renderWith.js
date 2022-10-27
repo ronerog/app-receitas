@@ -28,7 +28,7 @@ export function renderWithRouter(
 
 export function renderWithContext(component) {
   return {
-    ...render(
+    ...renderWithRouter(
       <AppProvider value={ AppContext }>
         {component}
       </AppProvider>,

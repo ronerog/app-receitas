@@ -14,7 +14,7 @@ export default function Header({ title, IconSearch = true,
         <Link to="/profile">
           <img
             src={ profileIcon }
-            alt={ profileIcon }
+            alt="profile icon"
             data-testid="profile-top-btn"
           />
         </Link>
@@ -24,7 +24,8 @@ export default function Header({ title, IconSearch = true,
           type="button"
           onClick={ () => setSearch((prevState) => !prevState) }
         >
-          <img src={ searchIcon } alt={ searchIcon } data-testid="search-top-btn" />
+          <img src={ searchIcon } alt="search-icon"
+          data-testid="search-top-btn" />
         </button>
       ))}
       {

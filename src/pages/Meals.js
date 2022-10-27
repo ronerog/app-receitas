@@ -7,7 +7,7 @@ function Meals() {
   return (
     <div>
       <Header title="Meals" />
-      Comidass
+      Comidas
       <Recipes />
       <Footer />
 
