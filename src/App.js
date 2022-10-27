@@ -6,13 +6,13 @@ import AppProvider from './context/AppProvider';
 import Login from './pages/Login';
 import meals from './pages/Meals';
 import drinks from './pages/Drinks';
-import mealsId from './pages/MealsID';
-import drinksId from './pages/DrinksID';
+import DrinksId from './pages/DrinksID';
 import mealsProgress from './pages/MealsProgress';
 import drinksProgress from './pages/DrinksProgress';
 import profile from './pages/Profile';
 import doneRecipes from './pages/DoneRecipes';
 import favoriteRecipes from './pages/FavoriteRecipes';
+import MealsID from './pages/MealsID';
 
 function App() {
   return (
@@ -20,15 +20,31 @@ function App() {
       <AppProvider>
         <Switch>
           <Route exact path="/" component={ Login } />
-          <Route path="/meals" component={ meals } />
-          <Route path="/drinks" component={ drinks } />
-          <Route path="/meals/:id-da-receita" component={ mealsId } />
-          <Route path="/drinks/:id-da-receita" component={ drinksId } />
-          <Route path="/meals/:id-da-receita/in-progress" component={ mealsProgress } />
-          <Route path="/drinks/:id-da-receita/in-progress" component={ drinksProgress } />
-          <Route path="/profile" component={ profile } />
-          <Route path="/done-recipes" component={ doneRecipes } />
-          <Route path="/favorite-recipes" component={ favoriteRecipes } />
+          <Route exact path="/meals" component={ meals } />
+          <Route exact path="/drinks" component={ drinks } />
+          <Route
+            exact
+            path="/meals/:id_da_receita"
+            render={ (props) => <MealsID { ...props } /> }
+          />
+          <Route
+            exact
+            path="/drinks/:id_da_receita"
+            render={ (props) => <DrinksId { ...props } /> }
+          />
+          <Route
+            exact
+            path="/meals/:id-da-receita/in-progress"
+            component={ mealsProgress }
+          />
+          <Route
+            exact
+            path="/drinks/:id-da-receita/in-progress"
+            component={ drinksProgress }
+          />
+          <Route exact path="/profile" component={ profile } />
+          <Route exact path="/done-recipes" component={ doneRecipes } />
+          <Route exact path="/favorite-recipes" component={ favoriteRecipes } />
         </Switch>
       </AppProvider>
     </div>

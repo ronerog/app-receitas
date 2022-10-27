@@ -72,3 +72,8 @@ footer {
   left: 0;
   position: fixed;
 }
+
+#imagem {
+  width: 25px;
+  flex-direction: row;
+}

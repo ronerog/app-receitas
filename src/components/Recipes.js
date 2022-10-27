@@ -21,6 +21,14 @@ function Recipes() {
     requestMealsCategories();
     requestDrinksCategories();
   }, []);
+
+  const redirectToMeals = (id) => {
+    history.push(`/meals/${id}`);
+  };
+  const redirectToDrinks = (id) => {
+    history.push(`/drinks/${id}`);
+  };
+
   return (
     <div>
       {pathname === '/meals' ? (
@@ -31,21 +39,27 @@ function Recipes() {
                 mealsApi.map((element, index) => (
                   index < twelve
                 && (
-                  <div
+                  <span
                     key={ index }
                     data-testid={ `${index}-recipe-card` }
                   >
-                    <img
-                      src={ element.strMealThumb }
-                      alt="imagem"
-                      data-testid={ `${index}-card-img` }
-                    />
-                    <p
-                      data-testid={ `${index}-card-name` }
+                    <button
+                      type="button"
+                      onClick={ () => redirectToMeals(element.idMeal) }
                     >
-                      {element.strMeal}
-                    </p>
-                  </div>
+                      <img
+                        id="imagem"
+                        src={ element.strMealThumb }
+                        alt="imagem"
+                        data-testid={ `${index}-card-img` }
+                      />
+                      <p
+                        data-testid={ `${index}-card-name` }
+                      >
+                        {element.strMeal}
+                      </p>
+                    </button>
+                  </span>
                 ))))
             }
           </div>
@@ -74,21 +88,27 @@ function Recipes() {
                 drinksApi.map((element, index) => (
                   index < twelve
                 && (
-                  <div
+                  <span
                     key={ index }
                     data-testid={ `${index}-recipe-card` }
                   >
-                    <img
-                      src={ element.strDrinkThumb }
-                      alt="imagem"
-                      data-testid={ `${index}-card-img` }
-                    />
-                    <p
-                      data-testid={ `${index}-card-name` }
+                    <button
+                      type="button"
+                      onClick={ () => redirectToDrinks(element.idDrink) }
                     >
-                      {element.strDrink}
-                    </p>
-                  </div>)))
+                      <img
+                        id="imagem"
+                        src={ element.strDrinkThumb }
+                        alt="imagem"
+                        data-testid={ `${index}-card-img` }
+                      />
+                      <p
+                        data-testid={ `${index}-card-name` }
+                      >
+                        {element.strDrink}
+                      </p>
+                    </button>
+                  </span>)))
               )
             }
           </div>
