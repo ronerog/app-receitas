@@ -51,17 +51,14 @@ function AppProvider({ children }) {
         const recipies = await requestCocktailByName(inputSearch);
         setDataFiltered(recipies.drinks);
       }
+    } else if (inputSearch.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    } else if (location === '/meals') {
+      const recipies = await requestMealByLetter(inputSearch);
+      setDataFiltered(recipies);
     } else {
-      if (inputSearch.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
-      }
-      if (location === '/meals') {
-        const recipies = await requestMealByLetter(inputSearch);
-        setDataFiltered(recipies);
-      } else {
-        const recipies = await requestCocktailByLetter(inputSearch);
-        setDataFiltered(recipies.drinks);
-      }
+      const recipies = await requestCocktailByLetter(inputSearch);
+      setDataFiltered(recipies.drinks);
     }
   }, [radio, inputSearch]);
 
