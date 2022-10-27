@@ -7,11 +7,11 @@ function Footer() {
   return (
 
     <footer id="footer" data-testid="footer">
-      <Link to="/meals">
-        <img src={ mealIcon } alt="meals" data-testid="meals-bottom-btn" />
-      </Link>
       <Link to="/drinks">
         <img src={ drinkIcon } alt="drink" data-testid="drinks-bottom-btn" />
+      </Link>
+      <Link to="/meals">
+        <img src={ mealIcon } alt="meals" data-testid="meals-bottom-btn" />
       </Link>
     </footer>
   );

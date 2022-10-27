@@ -73,7 +73,7 @@ footer {
   position: fixed;
 }
 
-#imagem {
-  width: 25px;
+img {
   flex-direction: row;
+  width: 25px;
 }
