@@ -25,21 +25,62 @@ function MealsID() {
 
   return (
     <div>
-      { mealID.map((element, index) => (
-        <span
-          key={ index }
-        >
-          <img
-            src={ element.strMealThumb }
-            alt="Mealimage"
-            data-testid="recipe-photo"
-          />
-          <h2 data-testid="recipe-title">{element.strMeal}</h2>
-          <h3 data-testid="recipe-category">{element.strCategory}</h3>
-          <h3 data-testid={ `${index}-ingredient-name-and-measure` }>{}</h3>
+      { mealID.map((element, index) => {
+        const arrayMeasure = Object.entries(element)
+          .filter(([el]) => el.includes('strMeasure'));
+        const arrayIngredient = Object.entries(element)
+          .filter(([el]) => el.includes('strIngredient'));
+        const reducerIngredient = arrayIngredient.reduce((actual, array) => {
+          if (array[1] !== ' ') {
+            return [...actual, array[1]];
+          }
+          return actual;
+        }, []);
+        const reducerMeasure = arrayMeasure.reduce((acc, el) => {
+          if (el[1] !== ' ') {
+            console.log(el);
+            return [...acc, el[1]];
+          }
+          return acc;
+        }, []);
+        return (
+          <span
+            key={ index }
+          >
+            <img
+              src={ element.strMealThumb }
+              alt="Mealimage"
+              data-testid="recipe-photo"
+            />
+            <h2 data-testid="recipe-title">{element.strMeal}</h2>
+            <h4 data-testid="recipe-category">{element.strCategory}</h4>
+            { reducerIngredient.map((ingredient, i) => (
+              <h4
+                key={ i }
+                data-testid={ `${i}-ingredient-name-and-measure` }
+              >
+                {ingredient}
 
-        </span>
-      )) }
+              </h4>))}
+            { reducerMeasure.map((measure, idx) => (
+              <h4
+                key={ idx }
+                data-testid={ `${idx}-ingredient-name-and-measure` }
+              >
+                {measure}
+
+              </h4>))}
+            <h4 data-testid="instructions">
+              {element.strInstructions}
+              {' '}
+            </h4>
+            <video data-testid="video">
+              <track kind="captions" src={ element.strVideo } type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </span>
+        );
+      }) }
     </div>
   );
 }
