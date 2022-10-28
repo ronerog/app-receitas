@@ -8,7 +8,7 @@ import {
 import AppContext from './Context';
 
 function AppProvider({ children }) {
-  const [dataFiltered, setDataFiltered] = useState([]);
+  // const [dataFiltered, setDataFiltered] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [inputSearch, setInputSearch] = useState('');
@@ -35,10 +35,10 @@ function AppProvider({ children }) {
     const location = window.location.pathname;
     if (location === '/meals') {
       const recipies = await requestMealByIngredient(inputSearch);
-      setDataFiltered(recipies.meals);
+      setMeals(recipies.meals);
     } else {
       const recipies = await requestCocktailByIngredient(inputSearch);
-      setDataFiltered(recipies.drinks);
+      setDrinks(recipies.drinks);
     }
   }, [inputSearch]);
 
@@ -46,13 +46,13 @@ function AppProvider({ children }) {
     const location = window.location.pathname;
     if (location === '/meals') {
       const recipies = await requestMealByName(inputSearch);
-      setDataFiltered(recipies.meals);
+      setMeals(recipies.meals);
       if (recipies.meals.length === 1) {
         window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
       }
     } else {
       const recipies = await requestCocktailByName(inputSearch);
-      setDataFiltered(recipies.drinks);
+      setDrinks(recipies.drinks);
       if (recipies.drinks.length === 1) {
         window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
       }
@@ -71,22 +71,12 @@ function AppProvider({ children }) {
         global.alert('Your search must have only 1 (one) character');
       } else if (location === '/meals') {
         const recipies = await requestMealByLetter(inputSearch);
-        setDataFiltered(recipies);
+        setMeals(recipies.meals);
       } else {
         const recipies = await requestCocktailByLetter(inputSearch);
-        setDataFiltered(recipies.drinks);
+        setDrinks(recipies.drinks);
       }
     }
-
-    // else if (inputSearch.length > 1) {
-    //   global.alert('Your search must have only 1 (one) character');
-    // } else if (location === '/meals') {
-    //   const recipies = await requestMealByLetter(inputSearch);
-    //   setDataFiltered(recipies);
-    // } else {
-    //   const recipies = await requestCocktailByLetter(inputSearch);
-    //   setDataFiltered(recipies.drinks);
-    // }
   }, [radio, inputSearch, handleIngredientsSearch, handleNameSearch]);
 
   const handleEmail = ({ target: { value } }) => {
@@ -137,7 +127,6 @@ function AppProvider({ children }) {
     handleInputSearch,
     radioview,
     handleRadioview,
-    dataFiltered,
     handleClickSearch,
     handleEmail,
     handlePassword,
@@ -155,7 +144,6 @@ function AppProvider({ children }) {
     radio,
     radioview,
     handleRadioview,
-    dataFiltered,
     handleClickSearch,
     drinksApi,
     mealsApi,
