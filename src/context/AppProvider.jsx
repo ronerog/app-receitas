@@ -31,42 +31,63 @@ function AppProvider({ children }) {
     setInputSearch(target.value);
   };
 
+  const handleIngredientsSearch = useCallback(async () => {
+    const location = window.location.pathname;
+    if (location === '/meals') {
+      const recipies = await requestMealByIngredient(inputSearch);
+      setDataFiltered(recipies.meals);
+    } else {
+      const recipies = await requestCocktailByIngredient(inputSearch);
+      setDataFiltered(recipies.drinks);
+    }
+  }, [inputSearch]);
+
+  const handleNameSearch = useCallback(async () => {
+    const location = window.location.pathname;
+    if (location === '/meals') {
+      const recipies = await requestMealByName(inputSearch);
+      setDataFiltered(recipies.meals);
+      if (recipies.meals.length === 1) {
+        window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
+      }
+    } else {
+      const recipies = await requestCocktailByName(inputSearch);
+      setDataFiltered(recipies.drinks);
+      if (recipies.drinks.length === 1) {
+        window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
+      }
+    }
+  }, [inputSearch]);
+
   const handleClickSearch = useCallback(async (e) => {
     e.preventDefault();
     const location = window.location.pathname;
     if (radio === 'ingredient') {
-      if (location === '/meals') {
-        const recipies = await requestMealByIngredient(inputSearch);
-        setDataFiltered(recipies.meals);
-      } else {
-        const recipies = await requestCocktailByIngredient(inputSearch);
-        setDataFiltered(recipies.drinks);
-      }
+      handleIngredientsSearch();
     } else if (radio === 'name') {
-      if (location === '/meals') {
-        const recipies = await requestMealByName(inputSearch);
-        setDataFiltered(recipies.meals);
-        if (recipies.meals.length === 1) {
-          window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
-        }
+      handleNameSearch();
+    } else if (radio === 'letter') {
+      if (inputSearch.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (location === '/meals') {
+        const recipies = await requestMealByLetter(inputSearch);
+        setDataFiltered(recipies);
       } else {
-        const recipies = await requestCocktailByName(inputSearch);
+        const recipies = await requestCocktailByLetter(inputSearch);
         setDataFiltered(recipies.drinks);
-        console.log(recipies.drinks);
-        if (recipies.drinks.length === 1) {
-          window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
-        }
       }
-    } else if (inputSearch.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    } else if (location === '/meals') {
-      const recipies = await requestMealByLetter(inputSearch);
-      setDataFiltered(recipies);
-    } else {
-      const recipies = await requestCocktailByLetter(inputSearch);
-      setDataFiltered(recipies.drinks);
     }
-  }, [radio, inputSearch]);
+
+    // else if (inputSearch.length > 1) {
+    //   global.alert('Your search must have only 1 (one) character');
+    // } else if (location === '/meals') {
+    //   const recipies = await requestMealByLetter(inputSearch);
+    //   setDataFiltered(recipies);
+    // } else {
+    //   const recipies = await requestCocktailByLetter(inputSearch);
+    //   setDataFiltered(recipies.drinks);
+    // }
+  }, [radio, inputSearch, handleIngredientsSearch, handleNameSearch]);
 
   const handleEmail = ({ target: { value } }) => {
     setEmail(value);
