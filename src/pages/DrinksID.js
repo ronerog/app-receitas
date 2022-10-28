@@ -15,17 +15,12 @@ function DrinksID() {
     setDrinksID(result.drinks);
   };
 
-  async function requestDrinks() {
-    const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const result = await request.json();
-    return result;
-  }
+  console.log(drinksID);
 
   useEffect(() => {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
     requestCocktailById(string);
-    requestDrinks();
   }, []);
 
   return (
