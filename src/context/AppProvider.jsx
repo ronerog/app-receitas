@@ -8,7 +8,6 @@ import {
 import AppContext from './Context';
 
 function AppProvider({ children }) {
-  // const [dataFiltered, setDataFiltered] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [inputSearch, setInputSearch] = useState('');
@@ -18,6 +17,7 @@ function AppProvider({ children }) {
   const [mealsApi, setMeals] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const alertMsg = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleRadio = ({ target }) => {
     setRadio(target.value);
@@ -35,10 +35,18 @@ function AppProvider({ children }) {
     const location = window.location.pathname;
     if (location === '/meals') {
       const recipies = await requestMealByIngredient(inputSearch);
-      setMeals(recipies.meals);
+      if (recipies.meals === null) {
+        global.alert(alertMsg);
+      } else {
+        setMeals(recipies.meals);
+      }
     } else {
       const recipies = await requestCocktailByIngredient(inputSearch);
-      setDrinks(recipies.drinks);
+      if (recipies.drink === null) {
+        global.alert(alertMsg);
+      } else {
+        setDrinks(recipies.drinks);
+      }
     }
   }, [inputSearch]);
 
@@ -46,15 +54,22 @@ function AppProvider({ children }) {
     const location = window.location.pathname;
     if (location === '/meals') {
       const recipies = await requestMealByName(inputSearch);
-      setMeals(recipies.meals);
-      if (recipies.meals.length === 1) {
-        window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
+      if (recipies.meals === null) {
+        global.alert(alertMsg);
+      } else {
+        setMeals(recipies.meals);
+        if (recipies.meals.length === 1) {
+          window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
+        }
       }
     } else {
       const recipies = await requestCocktailByName(inputSearch);
-      setDrinks(recipies.drinks);
-      if (recipies.drinks.length === 1) {
+      if (recipies.drinks === null) {
+        global.alert(alertMsg);
+      } else if (recipies.drinks.length === 1) {
         window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
+      } else {
+        setDrinks(recipies.drinks);
       }
     }
   }, [inputSearch]);
