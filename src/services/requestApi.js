@@ -63,3 +63,25 @@ export const requestCocktailByLetter = async (letter) => {
     throw new Error(e.message);
   }
 };
+
+export const requestMealById = async (id) => {
+  try {
+    const endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(endPoint);
+    const result = await response.json();
+    return result;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export const requestCocktailById = async (id) => {
+  try {
+    const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(endPoint);
+    const result = await response.json();
+    return result;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};

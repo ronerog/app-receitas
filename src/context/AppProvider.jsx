@@ -100,28 +100,24 @@ function AppProvider({ children }) {
   async function requestDrinks() {
     const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const { drinks } = await request.json();
-    console.log(drinks);
     setDrinks(drinks);
     return drinksApi;
   }
   async function requestMeals() {
     const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const { meals } = await request.json();
-    console.log(meals);
     setMeals(meals);
     return mealsApi;
   }
   async function requestMealsCategories() {
     const request = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
     const { meals } = await request.json();
-    console.log(meals);
     setMealsCategories(meals);
     return mealsCategories;
   }
   async function requestDrinksCategories() {
     const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
     const { drinks } = await request.json();
-    console.log(drinks);
     setDrinksCategories(drinks);
     return drinksCategories;
   }
