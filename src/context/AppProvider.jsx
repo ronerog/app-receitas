@@ -41,15 +41,21 @@ function AppProvider({ children }) {
       } else {
         const recipies = await requestCocktailByIngredient(inputSearch);
         setDataFiltered(recipies.drinks);
-        console.log(recipies.drinks);
       }
     } else if (radio === 'name') {
       if (location === '/meals') {
         const recipies = await requestMealByName(inputSearch);
         setDataFiltered(recipies.meals);
+        if (recipies.meals.length === 1) {
+          window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
+        }
       } else {
         const recipies = await requestCocktailByName(inputSearch);
         setDataFiltered(recipies.drinks);
+        console.log(recipies.drinks);
+        if (recipies.drinks.length === 1) {
+          window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
+        }
       }
     } else if (inputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
