@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   requestCocktailByIngredient, requestCocktailByLetter, requestCocktailByName,
@@ -18,6 +18,8 @@ function AppProvider({ children }) {
   const [mealsApi, setMeals] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [mealsRecipesName, setMealsRecipesName] = useState([]);
+  const [drinkRecipesName, setDrinksRecipesName] = useState([]);
 
   const handleRadio = ({ target }) => {
     setRadio(target.value);
@@ -98,6 +100,26 @@ function AppProvider({ children }) {
     setDrinksCategories(drinks);
     return drinksCategories;
   }
+  async function requestMealsRecipesName(payload) {
+    const request = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${payload}`);
+    const { meals } = await request.json();
+    console.log(meals);
+    setMealsRecipesName(meals);
+    return mealsRecipesName;
+  }
+
+  async function requestDrinkRecipesName(payload) {
+    const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${payload}`);
+    const { drinks } = await request.json();
+    console.log(drinks);
+    setDrinksRecipesName(drinks);
+    return drinkRecipesName;
+  }
+
+  function resetAll() {
+    setDrinksRecipesName([]);
+    setMealsRecipesName([]);
+  }
 
   const contexto = useMemo(() => ({
     email,
@@ -122,6 +144,11 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
+    mealsRecipesName,
+    requestMealsRecipesName,
+    drinkRecipesName,
+    requestDrinkRecipesName,
+    resetAll,
   }), [email,
     password,
     inputSearch,
@@ -137,7 +164,13 @@ function AppProvider({ children }) {
     requestDrinks,
     requestMeals,
     requestMealsCategories,
-    requestDrinksCategories]);
+    requestDrinksCategories,
+    mealsRecipesName,
+    requestMealsRecipesName,
+    drinkRecipesName,
+    requestDrinkRecipesName,
+    resetAll,
+  ]);
 
   return (
     <AppContext.Provider value={ contexto }>{children}</AppContext.Provider>

@@ -10,7 +10,9 @@ function Recipes() {
   const { pathname } = history.location;
   const { drinksApi, mealsApi, requestMeals,
     requestDrinks, mealsCategories, requestMealsCategories,
-    drinksCategories, requestDrinksCategories } = useContext(Context);
+    drinksCategories, requestDrinksCategories,
+    requestMealsRecipesName, mealsRecipesName,
+    requestDrinkRecipesName, drinkRecipesName, resetAll } = useContext(Context);
   useEffect(() => {
     if (pathname === '/drinks') {
       requestDrinks();
@@ -72,10 +74,27 @@ function Recipes() {
                     key={ index }
                     type="button"
                     data-testid={ `${element.strCategory}-category-filter` }
+                    onClick={ () => requestMealsRecipesName(element.strCategory) }
                   >
                     {element.strCategory}
                   </button>
                 )
+              ))
+            }
+            {
+              mealsRecipesName.map((e, i) => (
+                i < twelve
+              && (
+                <section>
+                  {e.strMeal}
+                  <img
+                    id="imagem"
+                    src={ e.strMealThumb }
+                    alt={ e }
+                    data-testid={ `${i}-category-filter` }
+                  />
+                </section>
+              )
               ))
             }
           </div>
@@ -121,15 +140,39 @@ function Recipes() {
                     key={ idx }
                     type="button"
                     data-testid={ `${el.strCategory}-category-filter` }
+                    onClick={ () => requestDrinkRecipesName(el.strCategory) }
                   >
                     {el.strCategory}
                   </button>
                 )
               ))
             }
+            {
+              drinkRecipesName.map((e, i) => (
+                i < twelve
+              && (
+                <section>
+                  {e.strDrink}
+                  <img
+                    id="imagem"
+                    src={ e.strDrinkThumb }
+                    alt={ e }
+                    data-testid={ `${i}-category-filter` }
+                  />
+                </section>
+              )
+              ))
+            }
           </div>
         </>
       )}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => resetAll() }
+      >
+        All
+      </button>
       <Footer />
     </div>
   );
