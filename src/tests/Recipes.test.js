@@ -33,7 +33,7 @@ describe('Testando recipes component', () => {
     });
     expect(history.location.pathname).toBe('/drinks');
 
-    const img = await screen.findByTestId('0-card-img', undefined, { timeout: 3000 });
+    const img = await screen.findByTestId('1-card-img', undefined, { timeout: 3000 });
     const categorieButton = await screen.findByRole('button', { name: /ordinary drink/i }, { timeout: 2000 });
     const cardButton = await screen.findByRole('button', { name: /GG/i }, { timeout: 2000 });
     const buttons = await screen.findAllByRole('button', undefined, { timeout: 2000 });
@@ -51,7 +51,7 @@ describe('Testando recipes component', () => {
       history.push('/meals');
     });
     const img = await screen.findByTestId('0-card-img', undefined, { timeout: 3000 });
-    const reset = await screen.findByTestId('All-category-filter');
+    const reset = screen.findByTestId('All-category-filter');
     userEvent.click(reset);
     expect(img).toBeInTheDocument();
   });
@@ -62,7 +62,7 @@ describe('Testando recipes component', () => {
     });
     const beef = await screen.findByText(/beef/i);
     userEvent.click(beef);
-    const name = await screen.getByText(/Beef and Mustard Pie/i);
+    const name = screen.getByText(/Beef and Mustard Pie/i);
     expect(name).toBeInTheDocument();
   });
   test('Verify DrinksRecipesName', async () => {
@@ -72,7 +72,25 @@ describe('Testando recipes component', () => {
     });
     const drink = await screen.findByText(/Ordinary Drink/i);
     userEvent.click(drink);
-    const name = await screen.getByText(/3-Mile Long Island Iced Tea/i);
+    const name = screen.getByText(/3-Mile Long Island Iced Tea/i);
     expect(name).toBeInTheDocument();
+  });
+  test('Verify Meals path', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const meal = await screen.findByText(/corba/i);
+    userEvent.click(meal);
+    expect(history.location.pathname.includes(52977)).toBeTruthy(); // verificar id dinamico
+  });
+  test('Verify Drink path', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/drinks');
+    });
+    const drinks = await screen.findByText(/gg/i);
+    userEvent.click(drinks);
+    expect(history.location.pathname.includes(15997)).toBeTruthy(); // verificar id dinamico
   });
 });
