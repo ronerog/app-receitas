@@ -14,6 +14,12 @@ function MealsID() {
     const result = await response.json();
     setMealID(result.meals);
   };
+  //
+  async function requestDrinks() {
+    const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    const { drinks } = await request.json();
+    return drinks;
+  }
 
   console.log(mealID);
 
@@ -21,11 +27,12 @@ function MealsID() {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
     requestMealById(string);
+    requestDrinks();
   }, []);
 
   return (
     <div>
-      { mealID.map((element, index) => {
+      {mealID.map((element, index) => {
         const arrayMeasure = Object.entries(element)
           .filter(([el]) => el.includes('strMeasure'));
         const arrayIngredient = Object.entries(element)
@@ -54,7 +61,7 @@ function MealsID() {
             />
             <h2 data-testid="recipe-title">{element.strMeal}</h2>
             <h4 data-testid="recipe-category">{element.strCategory}</h4>
-            { reducerIngredient.map((ingredient, i) => (
+            {reducerIngredient.map((ingredient, i) => (
               <h4
                 key={ i }
                 data-testid={ `${i}-ingredient-name-and-measure` }
@@ -62,7 +69,7 @@ function MealsID() {
                 {ingredient}
 
               </h4>))}
-            { reducerMeasure.map((measure, idx) => (
+            {reducerMeasure.map((measure, idx) => (
               <h4
                 key={ idx }
                 data-testid={ `${idx}-ingredient-name-and-measure` }
@@ -80,7 +87,7 @@ function MealsID() {
             </video>
           </span>
         );
-      }) }
+      })}
     </div>
   );
 }

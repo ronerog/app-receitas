@@ -14,6 +14,12 @@ function DrinksID() {
     const result = await response.json();
     setDrinksID(result.drinks);
   };
+  //
+  async function requestMeals() {
+    const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const { meals } = await request.json();
+    return meals;
+  }
 
   console.log(drinksID);
 
@@ -21,6 +27,7 @@ function DrinksID() {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
     requestCocktailById(string);
+    requestMeals();
   }, []);
 
   return (
