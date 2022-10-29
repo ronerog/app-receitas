@@ -24,7 +24,7 @@ describe('Testando recipes component', () => {
     expect(buttons.length).toBe(Number(18));
 
     userEvent.click(cardButton);
-    expect(history.location.pathname).toBe('meals/:id_da_receita');
+    expect(history.location.pathname).toBe('meals/:id_da_receita'); // verificar id dinamico
   });
   test('Verify if the cards and categories buttons still working in drinks path', async () => {
     const { history } = renderWithRouter(<App />);
@@ -43,6 +43,36 @@ describe('Testando recipes component', () => {
     expect(buttons.length).toBe(Number(18));
 
     userEvent.click(cardButton);
-    expect(history.location.pathname).toBe('drinks/:id_da_receita');
+    expect(history.location.pathname).toBe('drinks/:id_da_receita'); // verificar id dinamico
+  });
+  test('Verify if resetAll', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const img = await screen.findByTestId('0-card-img', undefined, { timeout: 3000 });
+    const reset = await screen.findByTestId('All-category-filter');
+    userEvent.click(reset);
+    expect(img).toBeInTheDocument();
+  });
+  test('Verify MealsRecipesName', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const beef = await screen.findByText(/beef/i);
+    userEvent.click(beef);
+    const name = await screen.getByText(/Beef and Mustard Pie/i);
+    expect(name).toBeInTheDocument();
+  });
+  test('Verify DrinksRecipesName', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/drinks');
+    });
+    const drink = await screen.findByText(/Ordinary Drink/i);
+    userEvent.click(drink);
+    const name = await screen.getByText(/3-Mile Long Island Iced Tea/i);
+    expect(name).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   requestCocktailByIngredient, requestCocktailByLetter, requestCocktailByName,
@@ -18,8 +18,7 @@ function AppProvider({ children }) {
   const [mealsApi, setMeals] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
-  const [mealsRecipesName, setMealsRecipesName] = useState([]);
-  const [drinkRecipesName, setDrinksRecipesName] = useState([]);
+  const [toggle, setToggle] = useState(false);
 
   const handleRadio = ({ target }) => {
     setRadio(target.value);
@@ -101,24 +100,34 @@ function AppProvider({ children }) {
     return drinksCategories;
   }
   async function requestMealsRecipesName(payload) {
+    if (toggle === true) {
+      setToggle(false);
+      return requestMeals();
+    }
+    setToggle(true);
     const request = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${payload}`);
     const { meals } = await request.json();
     console.log(meals);
-    setMealsRecipesName(meals);
-    return mealsRecipesName;
+    setMeals(meals);
+    return mealsApi;
   }
 
   async function requestDrinkRecipesName(payload) {
+    if (toggle === true) {
+      setToggle(false);
+      return requestDrinks();
+    }
+    setToggle(true);
     const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${payload}`);
     const { drinks } = await request.json();
     console.log(drinks);
-    setDrinksRecipesName(drinks);
-    return drinkRecipesName;
+    setDrinks(drinks);
+    return drinksApi;
   }
 
   function resetAll() {
-    setDrinksRecipesName([]);
-    setMealsRecipesName([]);
+    requestMeals();
+    requestDrinks();
   }
 
   const contexto = useMemo(() => ({
@@ -144,9 +153,7 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
-    mealsRecipesName,
     requestMealsRecipesName,
-    drinkRecipesName,
     requestDrinkRecipesName,
     resetAll,
   }), [email,
@@ -165,9 +172,7 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
-    mealsRecipesName,
     requestMealsRecipesName,
-    drinkRecipesName,
     requestDrinkRecipesName,
     resetAll,
   ]);

@@ -11,8 +11,8 @@ function Recipes() {
   const { drinksApi, mealsApi, requestMeals,
     requestDrinks, mealsCategories, requestMealsCategories,
     drinksCategories, requestDrinksCategories,
-    requestMealsRecipesName, mealsRecipesName,
-    requestDrinkRecipesName, drinkRecipesName, resetAll } = useContext(Context);
+    requestMealsRecipesName,
+    requestDrinkRecipesName, resetAll } = useContext(Context);
   useEffect(() => {
     if (pathname === '/drinks') {
       requestDrinks();
@@ -25,14 +25,21 @@ function Recipes() {
   }, []);
 
   const redirectToMeals = (id) => {
-    history.push(`/meals/${id}`);
+    history.push(`/meals/${id}`);// nao passou coverage, mas passa no cypress
   };
   const redirectToDrinks = (id) => {
-    history.push(`/drinks/${id}`);
+    history.push(`/drinks/${id}`); // nao passou coverage, mas passsa no cypress
   };
 
   return (
     <div>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ () => resetAll() }
+      >
+        All
+      </button>
       {pathname === '/meals' ? (
         <>
           <div className="card-meal">
@@ -47,7 +54,7 @@ function Recipes() {
                   >
                     <button
                       type="button"
-                      onClick={ () => redirectToMeals(element.idMeal) }
+                      onClick={ () => redirectToMeals(element.idMeal) } // nao passou coverage
                     >
                       <img
                         id="imagem"
@@ -81,7 +88,7 @@ function Recipes() {
                 )
               ))
             }
-            {
+            {/* {
               mealsRecipesName.map((e, i) => (
                 i < twelve
               && (
@@ -91,12 +98,11 @@ function Recipes() {
                     id="imagem"
                     src={ e.strMealThumb }
                     alt={ e }
-                    data-testid={ `${i}-category-filter` }
                   />
                 </section>
               )
               ))
-            }
+            } */}
           </div>
         </>
       ) : (
@@ -113,7 +119,7 @@ function Recipes() {
                   >
                     <button
                       type="button"
-                      onClick={ () => redirectToDrinks(element.idDrink) }
+                      onClick={ () => redirectToDrinks(element.idDrink) } // verificar teste de redirecionamento
                     >
                       <img
                         id="imagem"
@@ -147,7 +153,7 @@ function Recipes() {
                 )
               ))
             }
-            {
+            {/* {
               drinkRecipesName.map((e, i) => (
                 i < twelve
               && (
@@ -162,17 +168,10 @@ function Recipes() {
                 </section>
               )
               ))
-            }
+            } */}
           </div>
         </>
       )}
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ () => resetAll() }
-      >
-        All
-      </button>
       <Footer />
     </div>
   );
