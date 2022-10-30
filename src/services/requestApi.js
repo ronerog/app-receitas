@@ -31,6 +31,17 @@ export const requestMealByLetter = async (letter) => {
   }
 };
 
+export const requestMealById = async (id) => {
+  try {
+    const endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(endPoint);
+    const result = await response.json();
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const requestCocktailByIngredient = async (ingredient) => {
   try {
     const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`;
@@ -56,6 +67,17 @@ export const requestCocktailByName = async (name) => {
 export const requestCocktailByLetter = async (letter) => {
   try {
     const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`;
+    const response = await fetch(endPoint);
+    const result = await response.json();
+    return result;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export const requestCocktailById = async (id) => {
+  try {
+    const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     const response = await fetch(endPoint);
     const result = await response.json();
     return result;
