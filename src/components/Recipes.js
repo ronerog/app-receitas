@@ -20,7 +20,11 @@ function Recipes() {
     requestMeals();
     requestMealsCategories();
     requestDrinksCategories();
-  }, []);
+  }, [pathname,
+    requestDrinks,
+    requestDrinksCategories,
+    requestMeals,
+    requestMealsCategories]);
 
   const redirectToMeals = (id) => {
     history.push(`/meals/${id}`);
