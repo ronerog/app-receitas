@@ -5,7 +5,7 @@ import './App.css';
 import AppProvider from './context/AppProvider';
 import Login from './pages/Login';
 import meals from './pages/Meals';
-import drinks from './pages/Drinks';
+import Drinks from './pages/Drinks';
 import DrinksId from './pages/DrinksID';
 import MealsProgress from './pages/MealsProgress';
 import drinksProgress from './pages/DrinksProgress';
@@ -21,7 +21,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/meals" component={ meals } />
-          <Route exact path="/drinks" component={ drinks } />
+          <Route exact path="/drinks" component={ Drinks } />
           <Route
             exact
             path="/meals/:id_da_receita"

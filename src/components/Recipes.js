@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
-import Footer from './Footer';
 
 function Recipes() {
   const twelve = 12;
@@ -20,11 +19,7 @@ function Recipes() {
     requestMeals();
     requestMealsCategories();
     requestDrinksCategories();
-  }, [pathname,
-    requestDrinks,
-    requestDrinksCategories,
-    requestMeals,
-    requestMealsCategories]);
+  }, []);
 
   const redirectToMeals = (id) => {
     history.push(`/meals/${id}`);
@@ -134,7 +129,6 @@ function Recipes() {
           </div>
         </>
       )}
-      <Footer />
     </div>
   );
 }

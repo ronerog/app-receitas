@@ -27,7 +27,7 @@ function DrinksProgress() {
       getIngredients(response.drinks[0]);
     };
     requestApi();
-  }, [id]);
+  }, []);
   return (
     <div>
       <RecipeInProgress
@@ -37,6 +37,7 @@ function DrinksProgress() {
         category={ drinkData.strCategory }
         instructions={ drinkData.strInstructions }
         ingredients={ ingredientsArr }
+        // id={ drinkData.idDrink }
       />
     </div>
   );
