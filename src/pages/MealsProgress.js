@@ -38,7 +38,8 @@ function MealsProgress() {
         category={ mealData.strCategory }
         instructions={ mealData.strInstructions }
         ingredients={ ingredientsArr }
-        // id={ mealData.idMeal }
+        id={ mealData.idMeal }
+        object={ mealData }
       />
 
     </div>

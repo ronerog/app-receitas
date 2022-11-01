@@ -32,12 +32,13 @@ function DrinksProgress() {
     <div>
       <RecipeInProgress
         key={ drinkData.strDrink }
-        image={ drinkData.strImageSource }
+        image={ drinkData.strDrinkThumb }
         title={ drinkData.strDrink }
         category={ drinkData.strCategory }
         instructions={ drinkData.strInstructions }
         ingredients={ ingredientsArr }
-        // id={ drinkData.idDrink }
+        id={ drinkData.idDrink }
+        object={ drinkData }
       />
     </div>
   );
