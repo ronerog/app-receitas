@@ -157,7 +157,7 @@ function RecipeInProgress(props) {
                   id={ ingredient }
                   name={ ingredient }
                   value={ ingredient }
-                  onClick={ (e) => handleClick(e, ingredient) }
+                  onClick={ (e) => handleClickCheckBox(e, ingredient) }
                 />)}
             {ingredient}
           </label>
