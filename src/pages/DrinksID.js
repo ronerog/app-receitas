@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Context from '../context/Context';
 
 function DrinksID() {
+  // const { recomendation } = useContext(Context);
   const [drinksID, setDrinksID] = useState([]);
 
   const history = useHistory();
@@ -32,7 +34,7 @@ function DrinksID() {
 
   return (
     <div>
-      { drinksID.map((element, index) => {
+      {drinksID.map((element, index) => {
         const arrayMeasure = Object.entries(element)
           .filter(([el]) => el.includes('strMeasure'));
         const arrayIngredient = Object.entries(element)
@@ -55,6 +57,13 @@ function DrinksID() {
           <span
             key={ index }
           >
+            <button
+              className="start-recipe"
+              type="submit"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+            </button>
             <img
               src={ element.strDrinkThumb }
               alt="Mealimage"
@@ -62,7 +71,7 @@ function DrinksID() {
             />
             <h2 data-testid="recipe-title">{element.strDrink}</h2>
             <h4 data-testid="recipe-category">{element.strCategory}</h4>
-            { reducerIngredient.map((ingredient, i) => (
+            {reducerIngredient.map((ingredient, i) => (
               <h4
                 key={ i }
                 data-testid={ `${i}-ingredient-name-and-measure` }
@@ -70,7 +79,7 @@ function DrinksID() {
                 {ingredient}
 
               </h4>))}
-            { reducerMeasure.map((measure, idx) => (
+            {reducerMeasure.map((measure, idx) => (
               <h4
                 key={ idx }
                 data-testid={ `${idx}-ingredient-name-and-measure` }
@@ -87,9 +96,29 @@ function DrinksID() {
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            {/* <div className="carousel">
+              {
+                recomendation.map((el, inde) => (
+                  <div
+                    data-testid={ `${inde}-recommendation-card` }
+                    key={ el.strMeal }
+                  >
+                    <img
+                      src={ el.strMeal }
+                      alt={ el.strMeal }
+                    />
+                    <h3
+                      data-testid={ `${inde}-recommendation-title` }
+                    >
+                      { el.strMeal }
+                    </h3>
+                  </div>
+                ))
+              }
+            </div> */}
           </span>
         );
-      }) }
+      })}
     </div>
   );
 }

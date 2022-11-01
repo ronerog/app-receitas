@@ -18,6 +18,7 @@ function AppProvider({ children }) {
   const [mealsApi, setMeals] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [recomendation, setRecomendation] = useState([]);
 
   const handleRadio = ({ target }) => {
     setRadio(target.value);
@@ -58,6 +59,23 @@ function AppProvider({ children }) {
       }
     }
   }, [inputSearch]);
+
+  const recomendationID = async (e, index) => {
+    const maxRecomendation = 5;
+    const recomen1 = await requestCocktailByName(e);
+    try {
+      if (index === 'meal') {
+        const filArr = recomen1.meals.filter((el, elem) => elem, maxRecomendation);
+        setRecomendation(filArr);
+      }
+      if (index === 'drink') {
+        const filArr = recomen1.drinks.filter((el, elem) => elem, maxRecomendation);
+        setRecomendation(filArr);
+      }
+    } catch (error) {
+      global.alet('error');
+    }
+  };
 
   const handleClickSearch = useCallback(async (e) => {
     e.preventDefault();
@@ -146,6 +164,7 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
+    recomendationID,
   }), [email,
     password,
     inputSearch,
@@ -161,7 +180,8 @@ function AppProvider({ children }) {
     requestDrinks,
     requestMeals,
     requestMealsCategories,
-    requestDrinksCategories]);
+    requestDrinksCategories,
+    recomendation]);
 
   return (
     <AppContext.Provider value={ contexto }>{children}</AppContext.Provider>

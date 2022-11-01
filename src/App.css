@@ -77,3 +77,14 @@ footer {
   flex-direction: row;
   width: 25px;
 } */
+.start-recipe {
+  position: fixed;
+  width: 0px;
+  height: 0px;
+  bottom: 0px;
+}
+.carousel {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}

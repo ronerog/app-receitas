@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import Context from '../context/Context';
 
 function MealsID() {
+  // const { recomendation } = useContext(Context);
   const [mealID, setMealID] = useState([]);
 
   const history = useHistory();
@@ -54,6 +56,13 @@ function MealsID() {
           <span
             key={ index }
           >
+            <button
+              className="start-recipe"
+              type="submit"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+            </button>
             <img
               src={ element.strMealThumb }
               alt="Mealimage"
@@ -85,6 +94,27 @@ function MealsID() {
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            {/* <div className="carousel">
+              {
+                recomendation.map((el, inde) => (
+                  <div
+                    data-testid={ `${inde}-recommendation-card` }
+                    className="item"
+                    key={ el.strMeal }
+                  >
+                    <img
+                      src={ el.strMeal }
+                      alt={ el.strMeal }
+                    />
+                    <h3
+                      data-testid={ `${inde}-recommendation-title` }
+                    >
+                      { el.strMeal }
+                    </h3>
+                  </div>
+                ))
+              }
+            </div> */}
           </span>
         );
       })}
