@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
@@ -9,6 +10,8 @@ function RecipeInProgress(props) {
   const { image, title, category, instructions, ingredients, id, object } = props;
   const [elementsChecked, setElementsChecked] = useState([]);
   const [favorite, setFavorite] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(true);
+  const history = useHistory();
 
   const handleClickCheckBox = (event, ingredient) => {
     const current = event.target;
@@ -21,17 +24,20 @@ function RecipeInProgress(props) {
       favorite: false,
     }];
     const data = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
+    let objById;
     if (data === null) {
       localStorage.setItem('inProgressRecipes', JSON.stringify(dataToSave));
     } else {
-      const objById = data?.find((element) => element.id === id);
+      objById = data?.find((element) => element.id === id);
       if (!objById) {
         localStorage.setItem('inProgressRecipes', JSON.stringify(dataToSave));
       } else {
         objById.ingredient.push(ingredient);
         localStorage.setItem('inProgressRecipes', JSON.stringify(data));
       }
+    }
+    if (objById?.ingredient.length === ingredients.length) {
+      setBtnDisabled(!btnDisabled);
     }
   };
 
@@ -73,6 +79,40 @@ function RecipeInProgress(props) {
         const objFiltered = data.filter((element) => element.id !== id);
         localStorage.setItem('favoriteRecipes', JSON.stringify(objFiltered));
         setFavorite(false);
+      }
+    }
+  };
+
+  const handleFinished = (e) => {
+    e.preventDefault();
+    const NEGATIVE = -1;
+    const location = window.location.pathname;
+    let reciepeType = location.split('/');
+    reciepeType = reciepeType[1].slice(0, NEGATIVE);
+    const dateNow = new Date();
+    const path = '/done-recipes';
+    const dataToSave = [{
+      id,
+      nationality: object.strArea ? object.strArea : '',
+      name: title,
+      category,
+      image,
+      tags: object.strTags ? object.strTags.split(',') : [],
+      alcoholicOrNot: object.strAlcoholic ? object.strAlcoholic : '',
+      type: reciepeType,
+      doneDate: dateNow.toISOString(),
+    }];
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes === null) {
+      localStorage.setItem('doneRecipes', JSON.stringify(dataToSave));
+      history.push(path);
+    } else {
+      const objById = doneRecipes.find((element) => element.id === id);
+      if (!objById) {
+        localStorage.setItem('doneRecipes', JSON.stringify(dataToSave));
+        history.push(path);
+      } else {
+        history.push(path);
       }
     }
   };
@@ -127,7 +167,14 @@ function RecipeInProgress(props) {
       >
         Favoritar
       </button>
-      <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ btnDisabled }
+        onClick={ (e) => handleFinished(e) }
+      >
+        Finalizar
+      </button>
       {ingredients?.map((ingredient, index) => (
         <div
           key={ ingredient }
@@ -168,16 +215,20 @@ function RecipeInProgress(props) {
 }
 
 RecipeInProgress.propTypes = {
-  id: PropTypes.number.isRequired,
   category: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  instructions: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf.isRequired,
-  object: PropTypes.shape({
-    strArea: PropTypes.string.isRequired,
-    strAlcoholic: PropTypes.string.isRequired,
+  ingredients: PropTypes.shape({
+    length: PropTypes.number.isRequired,
+    map: PropTypes.func.isRequired,
   }).isRequired,
+  instructions: PropTypes.arrayOf.isRequired,
+  object: PropTypes.shape({
+    strAlcoholic: PropTypes.string.isRequired,
+    strArea: PropTypes.string.isRequired,
+    strTags: PropTypes.string.isRequired,
+  }).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default RecipeInProgress;
