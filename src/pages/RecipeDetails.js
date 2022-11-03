@@ -13,7 +13,7 @@ function RecipeDetails() {
       ? (
         <>
           <Header />
-          Recipe Details
+          <h1> Recipe Details</h1>
           <MealsID />
           <Footer />
         </>
@@ -21,7 +21,7 @@ function RecipeDetails() {
       : (
         <>
           <Header />
-          Recipe Details
+          <h1> Recipe Details</h1>
           <DrinksID />
           <Footer />
         </>)

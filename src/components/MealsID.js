@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function MealsID() {
+  const max = 6;
   // const { recomendation } = useContext(Context);
   const [mealID, setMealID] = useState([]);
+  const [allDrinks, setDrinks] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
   console.log(pathname);
@@ -17,6 +19,7 @@ function MealsID() {
   async function requestDrinks() {
     const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const { drinks } = await request.json();
+    setDrinks(drinks);
     return drinks;
   }
   console.log(mealID);
@@ -79,6 +82,21 @@ function MealsID() {
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            <span className="carousel">
+              {allDrinks.length > 0
+       && allDrinks
+         .filter((e, i) => i < max)
+         .map((reco, idx) => (
+           <span
+             key={ idx }
+             data-testid={ `${idx}-recommendation-card` }
+           >
+             <h1 data-testid={ `${idx}-recommendation-title` }>
+               {reco.strDrink}
+             </h1>
+             <img className="MealsImg" src={ reco.strDrinkThumb } alt="imgMeal" />
+           </span>))}
+            </span>
             <button
               type="button"
               data-testid="start-recipe-btn"
