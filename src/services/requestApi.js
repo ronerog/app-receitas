@@ -85,15 +85,3 @@ export const requestCocktailById = async (id) => {
     throw new Error(e.message);
   }
 };
-
-export async function requestDrinks() {
-  const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-  const { drinks } = await request.json();
-  return drinks;
-}
-
-export async function requestMeals() {
-  const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-  const { meals } = await request.json();
-  return meals;
-}
