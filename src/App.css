@@ -3,25 +3,18 @@
   position: fixed;
   z-index: 1;
 }
+
 .carousel {
   border: 1px solid black;
   display: flex;
+  flex-direction: row;
   height: 200%;
   margin-bottom: 100px;
   margin-top: 20px;
   overflow-x: scroll;
-  width: 100%;
-  flex-direction: row;
-  overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-}
-
-.start-recipe {
-  bottom: 0;
-  position: fixed;
-  text-align: center;
-  width: 90%;
+  width: 100%;
 }
 
 .MealsImg {
