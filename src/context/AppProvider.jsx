@@ -8,7 +8,6 @@ import {
 import AppContext from './Context';
 
 function AppProvider({ children }) {
-  const [dataFiltered, setDataFiltered] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [inputSearch, setInputSearch] = useState('');
@@ -19,6 +18,7 @@ function AppProvider({ children }) {
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const alertMsg = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleRadio = ({ target }) => {
     setRadio(target.value);
@@ -32,36 +32,68 @@ function AppProvider({ children }) {
     setInputSearch(target.value);
   };
 
+  const handleIngredientsSearch = useCallback(async () => {
+    const location = window.location.pathname;
+    if (location === '/meals') {
+      const recipies = await requestMealByIngredient(inputSearch);
+      if (recipies.meals === null) {
+        global.alert(alertMsg);
+      } else {
+        setMeals(recipies.meals);
+      }
+    } else {
+      const recipies = await requestCocktailByIngredient(inputSearch);
+      if (recipies.drink === null) {
+        global.alert(alertMsg);
+      } else {
+        setDrinks(recipies.drinks);
+      }
+    }
+  }, [inputSearch]);
+
+  const handleNameSearch = useCallback(async () => {
+    const location = window.location.pathname;
+    if (location === '/meals') {
+      const recipies = await requestMealByName(inputSearch);
+      if (recipies.meals === null) {
+        global.alert(alertMsg);
+      } else {
+        setMeals(recipies.meals);
+        if (recipies.meals.length === 1) {
+          window.location.assign(`/meals/${recipies.meals[0].idMeal}`);
+        }
+      }
+    } else {
+      const recipies = await requestCocktailByName(inputSearch);
+      if (recipies.drinks === null) {
+        global.alert(alertMsg);
+      } else if (recipies.drinks.length === 1) {
+        window.location.assign(`/drinks/${recipies.drinks[0].idDrink}`);
+      } else {
+        setDrinks(recipies.drinks);
+      }
+    }
+  }, [inputSearch]);
+
   const handleClickSearch = useCallback(async (e) => {
     e.preventDefault();
     const location = window.location.pathname;
     if (radio === 'ingredient') {
-      if (location === '/meals') {
-        const recipies = await requestMealByIngredient(inputSearch);
-        setDataFiltered(recipies.meals);
-      } else {
-        const recipies = await requestCocktailByIngredient(inputSearch);
-        setDataFiltered(recipies.drinks);
-        console.log(recipies.drinks);
-      }
+      handleIngredientsSearch();
     } else if (radio === 'name') {
-      if (location === '/meals') {
-        const recipies = await requestMealByName(inputSearch);
-        setDataFiltered(recipies.meals);
+      handleNameSearch();
+    } else if (radio === 'letter') {
+      if (inputSearch.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (location === '/meals') {
+        const recipies = await requestMealByLetter(inputSearch);
+        setMeals(recipies.meals);
       } else {
-        const recipies = await requestCocktailByName(inputSearch);
-        setDataFiltered(recipies.drinks);
+        const recipies = await requestCocktailByLetter(inputSearch);
+        setDrinks(recipies.drinks);
       }
-    } else if (inputSearch.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    } else if (location === '/meals') {
-      const recipies = await requestMealByLetter(inputSearch);
-      setDataFiltered(recipies);
-    } else {
-      const recipies = await requestCocktailByLetter(inputSearch);
-      setDataFiltered(recipies.drinks);
     }
-  }, [radio, inputSearch]);
+  }, [radio, inputSearch, handleIngredientsSearch, handleNameSearch]);
 
   const handleEmail = ({ target: { value } }) => {
     setEmail(value);
@@ -141,7 +173,6 @@ function AppProvider({ children }) {
     handleInputSearch,
     radioview,
     handleRadioview,
-    dataFiltered,
     handleClickSearch,
     handleEmail,
     handlePassword,
@@ -162,7 +193,6 @@ function AppProvider({ children }) {
     radio,
     radioview,
     handleRadioview,
-    dataFiltered,
     handleClickSearch,
     drinksApi,
     mealsApi,
