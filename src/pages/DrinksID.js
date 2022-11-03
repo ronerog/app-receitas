@@ -3,8 +3,9 @@ import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 function DrinksID() {
-  // const { recomendation } = useContext(Context);
+  // const { drinksApi } = useContext(Context);
   const [drinksID, setDrinksID] = useState([]);
+  const max = 6;
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -96,26 +97,22 @@ function DrinksID() {
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            {/* <div className="carousel">
-              {
-                recomendation.map((el, inde) => (
-                  <div
-                    data-testid={ `${inde}-recommendation-card` }
-                    key={ el.strMeal }
-                  >
-                    <img
-                      src={ el.strMeal }
-                      alt={ el.strMeal }
-                    />
-                    <h3
-                      data-testid={ `${inde}-recommendation-title` }
-                    >
-                      { el.strMeal }
-                    </h3>
-                  </div>
-                ))
-              }
-            </div> */}
+            <h3>Recomendations</h3>
+            <div className="carousel">
+              {drinksID.length > 0
+         && drinksID
+           .filter((e, i) => i < max)
+           .map((reco, idx) => (
+             <div
+               key={ idx }
+               data-testid={ `${idx}-recommendation-card` }
+             >
+               <h1 data-testid={ `${idx}-recommendation-title` }>
+                 coe
+               </h1>
+             </div>
+           ))}
+            </div>
           </span>
         );
       })}

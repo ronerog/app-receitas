@@ -3,8 +3,9 @@ import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 function MealsID() {
-  // const { recomendation } = useContext(Context);
+  const { mealsApi, requestMeals } = useContext(Context);
   const [mealID, setMealID] = useState([]);
+  const max = 6;
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -15,6 +16,7 @@ function MealsID() {
     const response = await fetch(endPoint);
     const result = await response.json();
     setMealID(result.meals);
+    console.log(mealID);
   };
   //
   async function requestDrinks() {
@@ -30,10 +32,11 @@ function MealsID() {
     const string = split[2].replace(/:/g, '');
     requestMealById(string);
     requestDrinks();
+    requestMeals();
   }, []);
 
   return (
-    <div>
+    <div className="container">
       {mealID.map((element, index) => {
         const arrayMeasure = Object.entries(element)
           .filter(([el]) => el.includes('strMeasure'));
@@ -47,7 +50,7 @@ function MealsID() {
         }, []);
         const reducerMeasure = arrayMeasure.reduce((acc, el) => {
           if (el[1] !== ' ') {
-            console.log(el);
+            // console.log(el);
             return [...acc, el[1]];
           }
           return acc;
@@ -94,27 +97,22 @@ function MealsID() {
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            {/* <div className="carousel">
-              {
-                recomendation.map((el, inde) => (
-                  <div
-                    data-testid={ `${inde}-recommendation-card` }
-                    className="item"
-                    key={ el.strMeal }
-                  >
-                    <img
-                      src={ el.strMeal }
-                      alt={ el.strMeal }
-                    />
-                    <h3
-                      data-testid={ `${inde}-recommendation-title` }
-                    >
-                      { el.strMeal }
-                    </h3>
-                  </div>
-                ))
-              }
-            </div> */}
+            <div className="carousel">
+              {mealsApi.length > 0
+         && mealsApi
+           .filter((x, i) => i < max)
+           .map((recomendation, idx) => (
+             <div
+               key={ idx }
+               data-testid={ `${idx}-recommendation-card` }
+             >
+
+               <h1 data-testid={ `${idx}-recommendation-title` }>
+                 test
+               </h1>
+             </div>
+           ))}
+            </div>
           </span>
         );
       })}

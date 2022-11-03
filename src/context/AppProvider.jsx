@@ -60,23 +60,6 @@ function AppProvider({ children }) {
     }
   }, [inputSearch]);
 
-  const recomendationID = async (e, index) => {
-    const maxRecomendation = 5;
-    const recomen1 = await requestCocktailByName(e);
-    try {
-      if (index === 'meal') {
-        const filArr = recomen1.meals.filter((el, elem) => elem, maxRecomendation);
-        setRecomendation(filArr);
-      }
-      if (index === 'drink') {
-        const filArr = recomen1.drinks.filter((el, elem) => elem, maxRecomendation);
-        setRecomendation(filArr);
-      }
-    } catch (error) {
-      global.alet('error');
-    }
-  };
-
   const handleClickSearch = useCallback(async (e) => {
     e.preventDefault();
     const location = window.location.pathname;
@@ -164,7 +147,7 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
-    recomendationID,
+    setRecomendation,
   }), [email,
     password,
     inputSearch,
