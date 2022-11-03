@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
-import Footer from './Footer';
 
 function Recipes() {
   const twelve = 12;
@@ -130,7 +129,6 @@ function Recipes() {
           </div>
         </>
       )}
-      <Footer />
     </div>
   );
 }
