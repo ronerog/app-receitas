@@ -6,13 +6,12 @@ import AppProvider from './context/AppProvider';
 import Login from './pages/Login';
 import meals from './pages/Meals';
 import drinks from './pages/Drinks';
-import DrinksId from './pages/DrinksID';
-import mealsProgress from './pages/MealsProgress';
-import drinksProgress from './pages/DrinksProgress';
 import profile from './pages/Profile';
 import doneRecipes from './pages/DoneRecipes';
 import favoriteRecipes from './pages/FavoriteRecipes';
-import MealsID from './pages/MealsID';
+import MealsProgress from './pages/MealsProgress';
+import DrinksProgress from './pages/DrinksProgress';
+import RecipesDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -25,22 +24,22 @@ function App() {
           <Route
             exact
             path="/meals/:id_da_receita"
-            render={ (props) => <MealsID { ...props } /> }
+            render={ (props) => <RecipesDetails { ...props } /> }
           />
           <Route
             exact
             path="/drinks/:id_da_receita"
-            render={ (props) => <DrinksId { ...props } /> }
+            render={ (props) => <RecipesDetails { ...props } /> }
           />
           <Route
             exact
             path="/meals/:id-da-receita/in-progress"
-            component={ mealsProgress }
+            render={ (props) => <MealsProgress { ...props } /> }
           />
           <Route
             exact
             path="/drinks/:id-da-receita/in-progress"
-            component={ drinksProgress }
+            render={ (props) => <DrinksProgress { ...props } /> }
           />
           <Route exact path="/profile" component={ profile } />
           <Route exact path="/done-recipes" component={ doneRecipes } />
@@ -50,5 +49,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

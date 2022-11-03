@@ -1,43 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Context from '../context/Context';
 
-function MealsID() {
-  const { mealsApi, requestMeals } = useContext(Context);
-  const [mealID, setMealID] = useState([]);
+function DrinksID() {
   const max = 6;
-
+  const [drinksID, setDrinksID] = useState([]);
+  const [allMeals, setMeals] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
   console.log(pathname);
-
-  const requestMealById = async (id) => {
-    const endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const requestCocktailById = async (id) => {
+    const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     const response = await fetch(endPoint);
     const result = await response.json();
-    setMealID(result.meals);
-    console.log(mealID);
+    setDrinksID(result.drinks);
   };
-  //
-  async function requestDrinks() {
-    const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const { drinks } = await request.json();
-    return drinks;
+  async function requestMeals() {
+    const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const { meals } = await request.json();
+    setMeals(meals);
+    console.log(meals);
+    return meals;
   }
-
-  console.log(mealID);
-
+  console.log(drinksID);
   useEffect(() => {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
-    requestMealById(string);
-    requestDrinks();
+    requestCocktailById(string);
     requestMeals();
-  }, []);
-
+  }, [pathname]);
   return (
-    <div className="container">
-      {mealID.map((element, index) => {
+    <span>
+      {drinksID.map((element, index) => {
         const arrayMeasure = Object.entries(element)
           .filter(([el]) => el.includes('strMeasure'));
         const arrayIngredient = Object.entries(element)
@@ -50,7 +43,7 @@ function MealsID() {
         }, []);
         const reducerMeasure = arrayMeasure.reduce((acc, el) => {
           if (el[1] !== ' ') {
-            // console.log(el);
+            console.log(el);
             return [...acc, el[1]];
           }
           return acc;
@@ -59,19 +52,12 @@ function MealsID() {
           <span
             key={ index }
           >
-            <button
-              className="start-recipe"
-              type="submit"
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
-            </button>
             <img
-              src={ element.strMealThumb }
+              src={ element.strDrinkThumb }
               alt="Mealimage"
               data-testid="recipe-photo"
             />
-            <h2 data-testid="recipe-title">{element.strMeal}</h2>
+            <h2 data-testid="recipe-title">{element.strDrink}</h2>
             <h4 data-testid="recipe-category">{element.strCategory}</h4>
             {reducerIngredient.map((ingredient, i) => (
               <h4
@@ -79,7 +65,6 @@ function MealsID() {
                 data-testid={ `${i}-ingredient-name-and-measure` }
               >
                 {ingredient}
-
               </h4>))}
             {reducerMeasure.map((measure, idx) => (
               <h4
@@ -87,37 +72,59 @@ function MealsID() {
                 data-testid={ `${idx}-ingredient-name-and-measure` }
               >
                 {measure}
-
               </h4>))}
             <h4 data-testid="instructions">
               {element.strInstructions}
+              <h4 data-testid="recipe-category">{element.strAlcoholic}</h4>
               {' '}
             </h4>
             <video data-testid="video">
               <track kind="captions" src={ element.strVideo } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <div className="carousel">
-              {mealsApi.length > 0
-         && mealsApi
-           .filter((x, i) => i < max)
-           .map((recomendation, idx) => (
-             <div
-               key={ idx }
-               data-testid={ `${idx}-recommendation-card` }
-             >
+            <span className="carousel">
+              {allMeals.length > 0
+       && allMeals
+         .filter((e, i) => i < max)
+         .map((reco, idx) => (
+           <span
+             key={ idx }
+             data-testid={ `${idx}-recommendation-card` }
+           >
+             <h1 data-testid={ `${idx}-recommendation-title` }>
+               {reco.strMeal}
+             </h1>
+             <img className="MealsImg" src={ reco.strMealThumb } alt="imgMeal" />
+           </span>))}
+            </span>
 
-               <h1 data-testid={ `${idx}-recommendation-title` }>
-                 test
-               </h1>
-             </div>
-           ))}
-            </div>
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="start-recipe"
+              onClick={ () => {
+                const URL = `${pathname}/in-progress`;
+                history.push(URL);
+              } }
+            >
+              Continue Recipe
+            </button>
+            <button
+              type="button"
+              data-testid="share-btn"
+            >
+              Share
+            </button>
+            <button
+              type="button"
+              data-testid="favorite-btn"
+            >
+              Favorite
+            </button>
           </span>
         );
       })}
-    </div>
+    </span>
   );
 }
-
-export default MealsID;
+export default DrinksID;

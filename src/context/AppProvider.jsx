@@ -107,8 +107,8 @@ function AppProvider({ children }) {
   async function requestMeals() {
     const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const { meals } = await request.json();
-    console.log(meals);
     setMeals(meals);
+    console.log(meals);
     return mealsApi;
   }
   async function requestMealsCategories() {
