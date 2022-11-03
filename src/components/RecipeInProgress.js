@@ -36,7 +36,7 @@ function RecipeInProgress(props) {
         localStorage.setItem('inProgressRecipes', JSON.stringify(data));
       }
     }
-    if (objById?.ingredient.length === ingredients.length) {
+    if (objById?.ingredient.length >= ingredients.length) {
       setBtnDisabled(!btnDisabled);
     }
   };
@@ -58,11 +58,11 @@ function RecipeInProgress(props) {
     let reciepeType = location.split('/');
     reciepeType = reciepeType[1].slice(0, NEGATIVE);
     const dataToSave = [{
-      id,
+      id: id || 0,
       type: reciepeType,
-      nationality: object.strArea ? object.strArea : '',
+      nationality: object.strArea || '',
       category,
-      alcoholicOrNot: object.strAlcoholic ? object.strAlcoholic : '',
+      alcoholicOrNot: object.strAlcoholic || '',
       name: title,
       image,
     }];
@@ -75,11 +75,8 @@ function RecipeInProgress(props) {
       if (!objById) {
         localStorage.setItem('favoriteRecipes', JSON.stringify(dataToSave));
         setFavorite(true);
-      } else {
-        const objFiltered = data.filter((element) => element.id !== id);
-        localStorage.setItem('favoriteRecipes', JSON.stringify(objFiltered));
-        setFavorite(false);
       }
+      setFavorite(false);
     }
   };
 
@@ -93,12 +90,12 @@ function RecipeInProgress(props) {
     const path = '/done-recipes';
     const dataToSave = [{
       id,
-      nationality: object.strArea ? object.strArea : '',
+      nationality: object.strArea || '',
       name: title,
       category,
       image,
-      tags: object.strTags ? object.strTags.split(',') : [],
-      alcoholicOrNot: object.strAlcoholic ? object.strAlcoholic : '',
+      tags: object?.strTags?.split(',') || [],
+      alcoholicOrNot: object?.strAlcoholic || '',
       type: reciepeType,
       doneDate: dateNow.toISOString(),
     }];
@@ -111,9 +108,8 @@ function RecipeInProgress(props) {
       if (!objById) {
         localStorage.setItem('doneRecipes', JSON.stringify(dataToSave));
         history.push(path);
-      } else {
-        history.push(path);
       }
+      history.push(path);
     }
   };
 
@@ -131,15 +127,10 @@ function RecipeInProgress(props) {
         }
       }
       if (getElementsFavorites) {
-        try {
-          const getFavorites = await getElementsFavorites
-            .find((element) => element.id === id);
-          if (getFavorites) {
-            console.log(getFavorites);
-            setFavorite(true);
-          }
-        } catch (e) {
-          console.log(e.message);
+        const getFavorites = await getElementsFavorites
+          .find((element) => element.id === id);
+        if (getFavorites) {
+          setFavorite(true);
         }
       }
     };
@@ -195,7 +186,7 @@ function RecipeInProgress(props) {
                   name={ ingredient }
                   value={ ingredient }
                   onClick={ (e) => handleClickCheckBox(e, ingredient) }
-                  checked={ elementsChecked.includes(ingredient) ? true : '' }
+                  checked={ elementsChecked.includes(ingredient) }
                 />
               )
               : (
