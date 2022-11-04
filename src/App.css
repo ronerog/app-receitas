@@ -22,3 +22,15 @@
   height: 200px;
   width: 300px;
 }
+
+.footer {
+  bottom: 0;
+  margin-left: 600px;
+  position: fixed;
+  width: 100%;
+}
+
+.imagem {
+  flex-direction: row;
+  width: 50px;
+}

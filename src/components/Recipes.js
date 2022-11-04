@@ -56,7 +56,7 @@ function Recipes() {
                       onClick={ () => redirectToMeals(element.idMeal) } // nao passou coverage
                     >
                       <img
-                        id="imagem"
+                        className="imagem"
                         src={ element.strMealThumb }
                         alt="imagem"
                         data-testid={ `${index}-card-img` }
@@ -121,7 +121,7 @@ function Recipes() {
                       onClick={ () => redirectToDrinks(element.idDrink) } // verificar teste de redirecionamento
                     >
                       <img
-                        id="imagem"
+                        className="imagem"
                         src={ element.strDrinkThumb }
                         alt="imagem"
                         data-testid={ `${index}-card-img` }
@@ -152,22 +152,6 @@ function Recipes() {
                 )
               ))
             }
-            {/* {
-              drinkRecipesName.map((e, i) => (
-                i < twelve
-              && (
-                <section>
-                  {e.strDrink}
-                  <img
-                    id="imagem"
-                    src={ e.strDrinkThumb }
-                    alt={ e }
-                    data-testid={ `${i}-category-filter` }
-                  />
-                </section>
-              )
-              ))
-            } */}
           </div>
         </>
       )}

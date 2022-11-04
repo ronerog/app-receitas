@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareButton from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -32,22 +33,10 @@ function DrinksID() {
     setCopied(true);
   }
 
-  // function handleLocalStorage() {
-  //   drinksID.map(
-  //     (e) => setLocalStorage((prev) => [...prev,
-  //       { id: e.idDrink,
-  //         type: 'drink',
-  //         nationality: e.strArea,
-  //         category: e.strCategory,
-  //         alcoholicOrNot: e.strAlcoholic,
-  //         name: e.strDrink,
-  //         image: e.strDrinkThumb }]),
-  //   );
-  //   localStorage.setItem(
-  //     'favoriteRecipes',
-  //     JSON.stringify(newLocalStorage),
-  //   );
-  // }
+  const handleLocalStorage = (obj) => {
+    const favorite = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, obj]));
+  };
 
   useEffect(() => {
     const split = pathname.split('/');
@@ -150,9 +139,19 @@ function DrinksID() {
             <button
               type="button"
               data-testid="favorite-btn"
-              // onClick={ handleLocalStorage }
+              onClick={ () => {
+                const obj = {
+                  alcoholicOrNot: element.strAlcoholic,
+                  category: element.strCategory,
+                  id: element.idDrink,
+                  image: element.strDrinkThumb,
+                  name: element.strDrink,
+                  nationality: '',
+                  type: 'drink' };
+                handleLocalStorage(obj);
+              } }
             >
-              Favorite
+              <img src={ whiteHeartIcon } alt="Favorite Icon" />
             </button>
           </span>
         );
