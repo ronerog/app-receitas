@@ -5,14 +5,13 @@ import './App.css';
 import AppProvider from './context/AppProvider';
 import Login from './pages/Login';
 import meals from './pages/Meals';
-import Drinks from './pages/Drinks';
-import DrinksId from './pages/DrinksID';
-import MealsProgress from './pages/MealsProgress';
-import drinksProgress from './pages/DrinksProgress';
+import drinks from './pages/Drinks';
 import profile from './pages/Profile';
 import doneRecipes from './pages/DoneRecipes';
 import favoriteRecipes from './pages/FavoriteRecipes';
-import MealsID from './pages/MealsID';
+import MealsProgress from './pages/MealsProgress';
+import DrinksProgress from './pages/DrinksProgress';
+import RecipesDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -21,26 +20,26 @@ function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/meals" component={ meals } />
-          <Route exact path="/drinks" component={ Drinks } />
+          <Route exact path="/drinks" component={ drinks } />
           <Route
             exact
             path="/meals/:id_da_receita"
-            render={ (props) => <MealsID { ...props } /> }
+            render={ (props) => <RecipesDetails { ...props } /> }
           />
           <Route
             exact
             path="/drinks/:id_da_receita"
-            render={ (props) => <DrinksId { ...props } /> }
+            render={ (props) => <RecipesDetails { ...props } /> }
           />
           <Route
             exact
-            path="/meals/:id_da_receita/in-progress"
+            path="/meals/:id-da-receita/in-progress"
             render={ (props) => <MealsProgress { ...props } /> }
           />
           <Route
             exact
-            path="/drinks/:id_da_receita/in-progress"
-            component={ drinksProgress }
+            path="/drinks/:id-da-receita/in-progress"
+            render={ (props) => <DrinksProgress { ...props } /> }
           />
           <Route exact path="/profile" component={ profile } />
           <Route exact path="/done-recipes" component={ doneRecipes } />
@@ -50,5 +49,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
