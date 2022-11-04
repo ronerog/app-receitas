@@ -24,10 +24,10 @@ function Recipes() {
   }, []);
 
   const redirectToMeals = (id) => {
-    history.push(`/meals/${id}`);// nao passou coverage, mas passa no cypress
+    history.push(`/meals/${id}`);
   };
   const redirectToDrinks = (id) => {
-    history.push(`/drinks/${id}`); // nao passou coverage, mas passsa no cypress
+    history.push(`/drinks/${id}`);
   };
 
   return (
@@ -53,10 +53,10 @@ function Recipes() {
                   >
                     <button
                       type="button"
-                      onClick={ () => redirectToMeals(element.idMeal) } // nao passou coverage
+                      onClick={ () => redirectToMeals(element.idMeal) }
                     >
                       <img
-                        id="imagem"
+                        className="imagem"
                         src={ element.strMealThumb }
                         alt="imagem"
                         data-testid={ `${index}-card-img` }
@@ -87,21 +87,6 @@ function Recipes() {
                 )
               ))
             }
-            {/* {
-              mealsRecipesName.map((e, i) => (
-                i < twelve
-              && (
-                <section>
-                  {e.strMeal}
-                  <img
-                    id="imagem"
-                    src={ e.strMealThumb }
-                    alt={ e }
-                  />
-                </section>
-              )
-              ))
-            } */}
           </div>
         </>
       ) : (
@@ -118,10 +103,10 @@ function Recipes() {
                   >
                     <button
                       type="button"
-                      onClick={ () => redirectToDrinks(element.idDrink) } // verificar teste de redirecionamento
+                      onClick={ () => redirectToDrinks(element.idDrink) }
                     >
                       <img
-                        id="imagem"
+                        className="imagem"
                         src={ element.strDrinkThumb }
                         alt="imagem"
                         data-testid={ `${index}-card-img` }
@@ -152,22 +137,6 @@ function Recipes() {
                 )
               ))
             }
-            {/* {
-              drinkRecipesName.map((e, i) => (
-                i < twelve
-              && (
-                <section>
-                  {e.strDrink}
-                  <img
-                    id="imagem"
-                    src={ e.strDrinkThumb }
-                    alt={ e }
-                    data-testid={ `${i}-category-filter` }
-                  />
-                </section>
-              )
-              ))
-            } */}
           </div>
         </>
       )}

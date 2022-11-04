@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareButton from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -33,6 +34,11 @@ function MealsID() {
     setCopied(true);
   }
 
+  const handleLocalStorage = (obj) => {
+    const favorite = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, obj]));
+  };
+
   useEffect(() => {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
@@ -42,6 +48,7 @@ function MealsID() {
   return (
     <div>
       {mealID.map((element, index) => {
+        console.log(element.idMeal);
         const arrayMeasure = Object.entries(element)
           .filter(([el]) => el.includes('strMeasure'));
         const arrayIngredient = Object.entries(element)
@@ -133,8 +140,19 @@ function MealsID() {
             <button
               type="button"
               data-testid="favorite-btn"
+              onClick={ () => {
+                const obj = {
+                  alcoholicOrNot: '',
+                  category: element.strCategory,
+                  id: element.idMeal,
+                  image: element.strMealThumb,
+                  name: element.strMeal,
+                  nationality: element.strArea,
+                  type: 'meal' };
+                handleLocalStorage(obj);
+              } }
             >
-              Favorite
+              <img src={ whiteHeartIcon } alt="Favorite Icon" />
             </button>
           </span>
         );

@@ -33,12 +33,12 @@ function App() {
           />
           <Route
             exact
-            path="/meals/:id-da-receita/in-progress"
+            path="/meals/:id_da_receita/in-progress"
             render={ (props) => <MealsProgress { ...props } /> }
           />
           <Route
             exact
-            path="/drinks/:id-da-receita/in-progress"
+            path="/drinks/:id_da_receita/in-progress"
             render={ (props) => <DrinksProgress { ...props } /> }
           />
           <Route exact path="/profile" component={ profile } />
