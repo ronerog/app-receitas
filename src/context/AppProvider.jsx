@@ -18,6 +18,7 @@ function AppProvider({ children }) {
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [recomendation, setRecomendation] = useState([]);
+  const [toggle, setToggle] = useState(false);
   const alertMsg = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleRadio = ({ target }) => {
@@ -128,6 +129,36 @@ function AppProvider({ children }) {
     setDrinksCategories(drinks);
     return drinksCategories;
   }
+  async function requestMealsRecipesName(payload) {
+    if (toggle === true) {
+      setToggle(false);
+      return requestMeals();
+    }
+    setToggle(true);
+    const request = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${payload}`);
+    const { meals } = await request.json();
+    console.log(meals);
+    setMeals(meals);
+    return mealsApi;
+  }
+
+  async function requestDrinkRecipesName(payload) {
+    if (toggle === true) {
+      setToggle(false);
+      return requestDrinks();
+    }
+    setToggle(true);
+    const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${payload}`);
+    const { drinks } = await request.json();
+    console.log(drinks);
+    setDrinks(drinks);
+    return drinksApi;
+  }
+
+  function resetAll() {
+    requestMeals();
+    requestDrinks();
+  }
 
   const contexto = useMemo(() => ({
     email,
@@ -152,6 +183,9 @@ function AppProvider({ children }) {
     requestMealsCategories,
     requestDrinksCategories,
     setRecomendation,
+    requestMealsRecipesName,
+    requestDrinkRecipesName,
+    resetAll,
   }), [email,
     password,
     inputSearch,
@@ -168,6 +202,10 @@ function AppProvider({ children }) {
     requestMealsCategories,
     requestDrinksCategories,
     recomendation]);
+    requestMealsRecipesName,
+    requestDrinkRecipesName,
+    resetAll,
+  ]);
 
   return (
     <AppContext.Provider value={ contexto }>{children}</AppContext.Provider>
