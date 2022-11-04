@@ -1,5 +1,6 @@
 .start-recipe {
   bottom: 0;
+  margin-left: 50%;
   position: fixed;
   z-index: 1;
 }

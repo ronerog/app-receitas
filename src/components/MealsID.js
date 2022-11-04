@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import shareButton from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function MealsID() {
   const max = 6;
   // const { recomendation } = useContext(Context);
   const [mealID, setMealID] = useState([]);
   const [allDrinks, setDrinks] = useState([]);
+  const [copied, setCopied] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
   console.log(pathname);
@@ -23,6 +27,12 @@ function MealsID() {
     return drinks;
   }
   console.log(mealID);
+
+  function handleShare() {
+    copy(`http://localhost:3000${pathname}`);
+    setCopied(true);
+  }
+
   useEffect(() => {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
@@ -112,8 +122,13 @@ function MealsID() {
             <button
               type="button"
               data-testid="share-btn"
+              onClick={ handleShare }
             >
-              Share
+              {
+                copied
+                  && <p>Link copied!</p>
+              }
+              <img src={ shareButton } alt="share" />
             </button>
             <button
               type="button"

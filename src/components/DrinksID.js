@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import shareButton from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function DrinksID() {
   const max = 6;
   const [drinksID, setDrinksID] = useState([]);
   const [allMeals, setMeals] = useState([]);
+  const [copied, setCopied] = useState(false);
+  // const [newLocalStorage, setLocalStorage] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
   console.log(pathname);
@@ -21,7 +26,29 @@ function DrinksID() {
     console.log(meals);
     return meals;
   }
-  console.log(drinksID);
+
+  function handleShare() {
+    copy(`http://localhost:3000${pathname}`);
+    setCopied(true);
+  }
+
+  // function handleLocalStorage() {
+  //   drinksID.map(
+  //     (e) => setLocalStorage((prev) => [...prev,
+  //       { id: e.idDrink,
+  //         type: 'drink',
+  //         nationality: e.strArea,
+  //         category: e.strCategory,
+  //         alcoholicOrNot: e.strAlcoholic,
+  //         name: e.strDrink,
+  //         image: e.strDrinkThumb }]),
+  //   );
+  //   localStorage.setItem(
+  //     'favoriteRecipes',
+  //     JSON.stringify(newLocalStorage),
+  //   );
+  // }
+
   useEffect(() => {
     const split = pathname.split('/');
     const string = split[2].replace(/:/g, '');
@@ -112,12 +139,18 @@ function DrinksID() {
             <button
               type="button"
               data-testid="share-btn"
+              onClick={ handleShare }
             >
-              Share
+              {
+                copied
+                  && <p>Link copied!</p>
+              }
+              <img src={ shareButton } alt="share" />
             </button>
             <button
               type="button"
               data-testid="favorite-btn"
+              // onClick={ handleLocalStorage }
             >
               Favorite
             </button>
