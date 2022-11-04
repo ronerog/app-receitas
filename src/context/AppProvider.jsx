@@ -6,7 +6,7 @@ import {
   requestMealByName,
 } from '../services/requestApi';
 import AppContext from './Context';
-
+//
 function AppProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
