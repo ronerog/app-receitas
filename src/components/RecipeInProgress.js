@@ -152,10 +152,14 @@ function RecipeInProgress(props) {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
-        src={ favorite ? blackHeartIcon : whiteHeartIcon }
+        // src={ favorite ? blackHeartIcon : whiteHeartIcon }
         onClick={ (e) => handleFavorite(e) }
       >
+        <img
+          data-testid="favorite-btn"
+          src={ favorite ? blackHeartIcon : whiteHeartIcon }
+          alt="Favorite Icon"
+        />
         Favoritar
       </button>
       <button
