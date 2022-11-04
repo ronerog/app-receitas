@@ -201,7 +201,7 @@ function AppProvider({ children }) {
     requestMeals,
     requestMealsCategories,
     requestDrinksCategories,
-    recomendation]);
+    recomendation,
     requestMealsRecipesName,
     requestDrinkRecipesName,
     resetAll,
