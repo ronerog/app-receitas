@@ -23,17 +23,21 @@ function FavoriteRecipes() {
 
   const handleShare = (event, id, path) => {
     event.preventDefault();
-    const { href } = window.location;
-    event.target.innerText = 'Link copied!';
-    let getPath = href.split('/');
-    getPath.pop();
-    getPath = getPath.join('/');
-    if (path === 'drink') {
-      getPath = `${getPath}/drinks/${id}`;
-    } else {
-      getPath = `${getPath}/meals/${id}`;
+    try {
+      const { href } = window.location;
+      event.target.innerText = 'Link copied!';
+      let getPath = href.split('/');
+      getPath.pop();
+      getPath = getPath.join('/');
+      if (path === 'drink') {
+        getPath = `${getPath}/drinks/${id}`;
+      } else {
+        getPath = `${getPath}/meals/${id}`;
+      }
+      copy(getPath);
+    } catch (e) {
+      console.log(e.message);
     }
-    copy(getPath);
   };
 
   const handleFilter = (event) => {
@@ -112,8 +116,6 @@ function FavoriteRecipes() {
                   {' '}
                   {recipe.category}
                 </p>)}
-            {/* <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p> */}
-
             <button
               type="button"
               onClick={ () => handleRedirect(recipe.id, recipe.type) }
