@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { Badge } from 'react-bootstrap';
 import Header from '../components/Header';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareButton from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+
   const getDataLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setFavoriteRecipes(data);
     console.log(data);
+  };
+
+  const handleClick = (id) => {
+    const favoritesFiltered = favoriteRecipes.filter((element) => element.id !== id);
+    setFavoriteRecipes(favoritesFiltered);
+    console.log(favoritesFiltered);
   };
 
   useEffect(() => {
@@ -27,24 +37,58 @@ function FavoriteRecipes() {
       <div>
         {favoriteRecipes?.map((recipe, index) => (
           <div key={ recipe.id }>
+            {recipe.alcoholicOrNot.includes('Alcoholic')
+              || recipe.alcoholicOrNot.includes('alcoholic')
+              ? <Badge bg="danger">{recipe.alcoholicOrNot}</Badge>
+              : <Badge bg="danger">{recipe.nationality}</Badge> }
+
             <img
               src={ recipe.image }
               alt={ recipe.name }
               data-testid={ `${index}-horizontal-image` }
+              style={ { width: '100%' } }
             />
-            <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p>
+            {recipe.alcoholicOrNot.includes('Alcoholic')
+              || recipe.alcoholicOrNot.includes('alcoholic')
+              ? (
+                <p data-testid={ `${index}-horizontal-top-text` }>
+                  {recipe.alcoholicOrNot}
+
+                </p>)
+              : (
+                <p data-testid={ `${index}-horizontal-top-text` }>
+                  {recipe.nationality}
+                  {' '}
+                  -
+                  {' '}
+                  {recipe.category}
+
+                </p>)}
+            {/* <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p> */}
+
             <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
+              src={ shareButton }
             >
-              Compartilhar
+              <img
+                data-testid="favorite-btn"
+                src={ shareButton }
+                alt="Share Icon"
+              />
             </button>
             <button
               type="button"
               data-testid={ `${index}-horizontal-favorite-btn` }
+              onClick={ () => handleClick(recipe.id) }
+              src={ blackHeartIcon }
             >
-              Favoritar
+              <img
+                data-testid="favorite-btn"
+                src={ blackHeartIcon }
+                alt="Favorite Icon"
+              />
             </button>
           </div>
         ))}
