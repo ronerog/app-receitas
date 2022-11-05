@@ -16,6 +16,7 @@ function FavoriteRecipes() {
   const handleClick = (id) => {
     const favoritesFiltered = favoriteRecipes.filter((element) => element.id !== id);
     setFavoriteRecipes(favoritesFiltered);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoritesFiltered));
     console.log(favoritesFiltered);
   };
 
