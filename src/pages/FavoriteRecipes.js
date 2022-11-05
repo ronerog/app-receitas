@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareButton from '../images/shareIcon.svg';
 
+const copy = require('clipboard-copy');
+
 function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
@@ -18,6 +20,21 @@ function FavoriteRecipes() {
     setFavoriteRecipes(favoritesFiltered);
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoritesFiltered));
     console.log(favoritesFiltered);
+  };
+
+  const handleShare = (event, id, path) => {
+    event.preventDefault();
+    const { href } = window.location;
+    event.target.innerText = 'Link copied!';
+    let getPath = href.split('/');
+    getPath.pop();
+    getPath = getPath.join('/');
+    if (path === 'drink') {
+      getPath = `${getPath}/drinks/${id}`;
+    } else {
+      getPath = `${getPath}/meals/${id}`;
+    }
+    copy(getPath);
   };
 
   useEffect(() => {
@@ -72,6 +89,7 @@ function FavoriteRecipes() {
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
               src={ shareButton }
+              onClick={ (event) => handleShare(event, recipe.id, recipe.type) }
             >
               <img
                 data-testid="favorite-btn"
