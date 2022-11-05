@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Badge } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareButton from '../images/shareIcon.svg';
@@ -8,6 +8,7 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const history = useHistory();
 
   const getDataLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -39,11 +40,15 @@ function FavoriteRecipes() {
     const data = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const { target } = event;
     const NEGATIVE = -1;
-    const path = target.innerText.toLowerCase();
-    const newPath = path.slice(0, NEGATIVE);
+    const path = target.innerText?.toLowerCase();
+    const newPath = path?.slice(0, NEGATIVE);
     const favoritesFiltered = data
       .filter((element) => element.type === newPath);
     setFavoriteRecipes(favoritesFiltered);
+  };
+
+  const handleRedirect = (id, path) => {
+    history.push(`/${path}s/${id}`);
   };
 
   useEffect(() => {
@@ -82,23 +87,22 @@ function FavoriteRecipes() {
       <div>
         {favoriteRecipes?.map((recipe, index) => (
           <div key={ recipe.id }>
-            {recipe.alcoholicOrNot.includes('Alcoholic')
-              || recipe.alcoholicOrNot.includes('alcoholic')
-              ? <Badge bg="danger">{recipe.alcoholicOrNot}</Badge>
-              : <Badge bg="danger">{recipe.nationality}</Badge> }
-
-            <img
-              src={ recipe.image }
-              alt={ recipe.name }
-              data-testid={ `${index}-horizontal-image` }
-              style={ { width: '100%' } }
-            />
+            <button
+              type="button"
+              onClick={ () => handleRedirect(recipe.id, recipe.type) }
+            >
+              <img
+                src={ recipe.image }
+                alt={ recipe.name }
+                data-testid={ `${index}-horizontal-image` }
+                style={ { width: '100%' } }
+              />
+            </button>
             {recipe.alcoholicOrNot.includes('Alcoholic')
               || recipe.alcoholicOrNot.includes('alcoholic')
               ? (
                 <p data-testid={ `${index}-horizontal-top-text` }>
                   {recipe.alcoholicOrNot}
-
                 </p>)
               : (
                 <p data-testid={ `${index}-horizontal-top-text` }>
@@ -107,11 +111,15 @@ function FavoriteRecipes() {
                   -
                   {' '}
                   {recipe.category}
-
                 </p>)}
             {/* <p data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</p> */}
 
-            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            <button
+              type="button"
+              onClick={ () => handleRedirect(recipe.id, recipe.type) }
+            >
+              <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            </button>
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }

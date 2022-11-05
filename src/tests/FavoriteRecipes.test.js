@@ -48,4 +48,75 @@ describe('Testando tela de Receitas Favoritas', () => {
     userEvent.click(getFavBtn);
     expect(getImg).not.toBeInTheDocument();
   });
+
+  test('Testando botao de share em Meals', async () => {
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteObj));
+    act(() => {
+      history.push(favoriteRecipes);
+    });
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+    jest.spyOn(navigator.clipboard, 'writeText');
+    const getShareBtn = await screen.findByTestId('0-horizontal-share-btn');
+    userEvent.click(getShareBtn);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost/meals/52771');
+  });
+
+  test('Testando botao de share em Drink', async () => {
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteObj));
+    act(() => {
+      history.push(favoriteRecipes);
+    });
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+    jest.spyOn(navigator.clipboard, 'writeText');
+    const getShareBtn = await screen.findByTestId('1-horizontal-share-btn');
+    userEvent.click(getShareBtn);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost/drinks/17225');
+  });
+
+  test('Testando filtro de elemento', async () => {
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteObj));
+    act(() => {
+      history.push(favoriteRecipes);
+    });
+
+    const getFilterBtn = await screen.findByRole('button', { name: /drinks/i });
+    const getImgDrink = await screen.findByRole('img', { name: /ace/i });
+    userEvent.click(getFilterBtn);
+    expect(getImgDrink).not.toBeInTheDocument();
+  });
+
+  test('Testando Redirect pela Img', async () => {
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteObj));
+    act(() => {
+      history.push(favoriteRecipes);
+    });
+
+    const getImgMeal = await screen.findByRole('img', { name: /spicy arrabiata penne/i });
+    userEvent.click(getImgMeal);
+    expect(history.location.pathname).toBe('/meals/52771');
+  });
+
+  test('Testando Redirect pelo Titulo', async () => {
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteObj));
+    act(() => {
+      history.push(favoriteRecipes);
+    });
+
+    const getImgMeal = await screen.findByText(/spicy arrabiata penne/i);
+    userEvent.click(getImgMeal);
+    expect(history.location.pathname).toBe('/meals/52771');
+  });
 });
