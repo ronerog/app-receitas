@@ -12,14 +12,12 @@ function FavoriteRecipes() {
   const getDataLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setFavoriteRecipes(data);
-    console.log(data);
   };
 
   const handleClick = (id) => {
     const favoritesFiltered = favoriteRecipes.filter((element) => element.id !== id);
     setFavoriteRecipes(favoritesFiltered);
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoritesFiltered));
-    console.log(favoritesFiltered);
   };
 
   const handleShare = (event, id, path) => {
@@ -37,6 +35,17 @@ function FavoriteRecipes() {
     copy(getPath);
   };
 
+  const handleFilter = (event) => {
+    const data = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const { target } = event;
+    const NEGATIVE = -1;
+    const path = target.innerText.toLowerCase();
+    const newPath = path.slice(0, NEGATIVE);
+    const favoritesFiltered = data
+      .filter((element) => element.type === newPath);
+    setFavoriteRecipes(favoritesFiltered);
+  };
+
   useEffect(() => {
     getDataLocalStorage();
   }, []);
@@ -49,9 +58,27 @@ function FavoriteRecipes() {
       />
       Receitas Favoritas
       <br />
-      <button type="button" data-testid="filter-by-all-btn">All</button>
-      <button type="button" data-testid="filter-by-meal-btn">Meals</button>
-      <button type="button" data-testid="filter-by-drink-btn">Drinks</button>
+      <button
+        type="button"
+        data-testid="filter-by-all-btn"
+        onClick={ getDataLocalStorage }
+      >
+        All
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-meal-btn"
+        onClick={ handleFilter }
+      >
+        Meals
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ handleFilter }
+      >
+        Drinks
+      </button>
       <div>
         {favoriteRecipes?.map((recipe, index) => (
           <div key={ recipe.id }>
