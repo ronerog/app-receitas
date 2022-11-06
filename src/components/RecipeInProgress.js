@@ -139,7 +139,12 @@ function RecipeInProgress(props) {
 
   return (
     <div>
-      <img src={ image } alt={ title } data-testid="recipe-photo" />
+      <img
+        src={ image }
+        alt={ title }
+        data-testid="recipe-photo"
+        style={ { width: '100%' } }
+      />
       <h1 data-testid="recipe-title">{title}</h1>
       <span data-testid="recipe-category">{category}</span>
       <span data-testid="instructions">{instructions}</span>
@@ -152,10 +157,14 @@ function RecipeInProgress(props) {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
-        src={ favorite ? blackHeartIcon : whiteHeartIcon }
+        // src={ favorite ? blackHeartIcon : whiteHeartIcon }
         onClick={ (e) => handleFavorite(e) }
       >
+        <img
+          data-testid="favorite-btn"
+          src={ favorite ? blackHeartIcon : whiteHeartIcon }
+          alt="Favorite Icon"
+        />
         Favoritar
       </button>
       <button
